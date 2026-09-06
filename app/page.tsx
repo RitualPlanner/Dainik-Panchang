@@ -37,9 +37,11 @@ import {
   TooltipTrigger,
 } from "@/components/ui/tooltip";
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
+import { Badge } from "@/components/ui/badge";
 import { env } from "@/lib/env";
 import { ThemeToggle } from "@/components/theme-toggle";
 import { toast } from "sonner";
+import pkg from "@/package.json";
 
 type FormData = {
   tithi: string;
@@ -390,12 +392,20 @@ export default function PanchangForm() {
                 alt="Dainik Panchang Logo"
                 className="h-9 w-9 sm:h-12 sm:w-12 md:h-14 md:w-14 object-contain hover:scale-105 transition-all duration-200 bg-background p-1 rounded-xl border border-border shadow-xs shrink-0"
               />
-              <span className="text-base sm:text-xl md:text-2xl font-bold tracking-tight sm:tracking-wider text-foreground select-none truncate">
-                Dainik
-                <span className="bg-gradient-to-r from-orange-500 via-orange-400 to-amber-400 bg-clip-text text-transparent">
-                  Panchang
+              <div className="flex items-center gap-1.5 sm:gap-2 min-w-0">
+                <span className="text-base sm:text-xl md:text-2xl font-bold tracking-tight sm:tracking-wider text-foreground select-none truncate">
+                  Dainik
+                  <span className="bg-gradient-to-r from-orange-500 via-orange-400 to-amber-400 bg-clip-text text-transparent">
+                    Panchang
+                  </span>
                 </span>
-              </span>
+                <Badge
+                  variant="outline"
+                  className="text-[10px] sm:text-xs font-mono font-medium px-1.5 sm:px-2 py-0 sm:py-0.5 rounded-full border-amber-500/30 dark:border-amber-400/30 bg-amber-500/10 text-amber-700 dark:text-amber-300 shrink-0 select-none"
+                >
+                  v{pkg.version}
+                </Badge>
+              </div>
             </div>
             <div className="flex items-center gap-1 sm:gap-2 bg-muted/60 backdrop-blur-sm p-1 sm:p-1.5 rounded-xl border border-border shadow-xs shrink-0">
               <ThemeToggle />
