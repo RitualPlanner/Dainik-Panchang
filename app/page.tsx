@@ -408,12 +408,19 @@ export default function PanchangForm() {
                   </span>
                 </span>
                 {/* Desktop Version Badge */}
-                <Badge
-                  variant="outline"
-                  className="hidden sm:inline-flex text-xs font-mono font-medium px-2 py-0.5 rounded-full border-orange-500/30 dark:border-orange-500/40 bg-orange-500/10 text-orange-600 dark:text-orange-400 shrink-0 select-none"
+                <a
+                  href={`https://github.com/RitualPlanner/dainik-panchang/releases/tag/v${pkg.version}`}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="hidden sm:inline-flex"
                 >
-                  v{pkg.version}
-                </Badge>
+                  <Badge
+                    variant="outline"
+                    className="text-xs font-mono font-medium px-2 py-0.5 rounded-full border-orange-500/30 dark:border-orange-500/40 bg-orange-500/10 text-orange-600 dark:text-orange-400 shrink-0 select-none hover:bg-orange-500/20 transition-colors cursor-pointer"
+                  >
+                    v{pkg.version}
+                  </Badge>
+                </a>
               </div>
             </div>
 
@@ -426,12 +433,19 @@ export default function PanchangForm() {
 
             {/* Mobile Controls: Version Badge First + 3 Vertical Dots Menu */}
             <div className="flex sm:hidden items-center gap-1.5 shrink-0">
-              <Badge
-                variant="outline"
-                className="text-[10px] font-mono font-medium px-1.5 py-0.5 rounded-full border-orange-500/30 dark:border-orange-500/40 bg-orange-500/10 text-orange-600 dark:text-orange-400 shrink-0 select-none"
+              <a
+                href={`https://github.com/RitualPlanner/dainik-panchang/releases/tag/v${pkg.version}`}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-flex"
               >
-                v{pkg.version}
-              </Badge>
+                <Badge
+                  variant="outline"
+                  className="text-[10px] font-mono font-medium px-1.5 py-0.5 rounded-full border-orange-500/30 dark:border-orange-500/40 bg-orange-500/10 text-orange-600 dark:text-orange-400 shrink-0 select-none hover:bg-orange-500/20 transition-colors cursor-pointer"
+                >
+                  v{pkg.version}
+                </Badge>
+              </a>
               <DropdownMenu>
                 <DropdownMenuTrigger asChild>
                   <Button
