@@ -39,6 +39,7 @@ import {
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
 import { env } from "@/lib/env";
 import { ThemeToggle } from "@/components/theme-toggle";
+import { toast } from "sonner";
 
 type FormData = {
   tithi: string;
@@ -109,7 +110,7 @@ export default function PanchangForm() {
   );
 
   // Add these new state variables after the existing ones
-  const [selectedOverlay, setSelectedOverlay] = useState<OverlayOption>({
+  const [selectedOverlay] = useState<OverlayOption>({
     id: "none",
     name: {
       gu: "કોઈ નહીં",
@@ -120,10 +121,6 @@ export default function PanchangForm() {
     imageUrl: "",
     type: "none",
   });
-  const [isFetchingData, setIsFetchingData] = useState(false);
-  const [activeMainTab, setActiveMainTab] = useState("form");
-  const [showNotification, setShowNotification] = useState(false);
-  const [notificationMessage, setNotificationMessage] = useState("");
 
   // Combine all fields into formData object
   const formData: FormData = {
@@ -211,16 +208,14 @@ export default function PanchangForm() {
             setBoldFields(decodedData.boldFields);
           }
 
-          // Show notification
-          setNotificationMessage(
+          // Show toast notification
+          toast.success(
             language === "gu"
               ? "શેર કરેલ પંચાંગ સફળતાપૂર્વક લોડ થયું"
               : language === "hi"
                 ? "शेयर किया गया पंचांग सफलतापूर्वक लोड हुआ"
                 : "Shared panchang loaded successfully"
           );
-          setShowNotification(true);
-          setTimeout(() => setShowNotification(false), 3000);
         } catch (error) {
           console.error("Error parsing shared data:", error);
         }
@@ -255,16 +250,14 @@ export default function PanchangForm() {
     downloadLink.click();
     document.body.removeChild(downloadLink);
 
-    // Show notification
-    setNotificationMessage(
+    // Show toast notification
+    toast.success(
       language === "gu"
         ? "પંચાંગ ઇમેજ સફળતાપૂર્વક જનરેટ થઈ"
         : language === "hi"
-          ? "पंचांग इमेज सफलतापूर्वक ज��रेट हुई"
+          ? "पंचांग इमेज सफलतापूर्वक जनरेट हुई"
           : "Panchang image generated successfully"
     );
-    setShowNotification(true);
-    setTimeout(() => setShowNotification(false), 3000);
   };
 
   const handleGeneratePDF = async () => {
@@ -278,16 +271,14 @@ export default function PanchangForm() {
     downloadLink.click();
     document.body.removeChild(downloadLink);
 
-    // Show notification
-    setNotificationMessage(
+    // Show toast notification
+    toast.success(
       language === "gu"
         ? "પંચાંગ PDF સફળતાપૂર્વક જનરેટ થઈ"
         : language === "hi"
           ? "पंचांग PDF सफलतापूर्वक जनरेट हुई"
           : "Panchang PDF generated successfully"
     );
-    setShowNotification(true);
-    setTimeout(() => setShowNotification(false), 3000);
   };
 
   const handleCopy = async () => {
@@ -295,18 +286,17 @@ export default function PanchangForm() {
     try {
       await navigator.clipboard.writeText(formattedText);
 
-      // Show notification
-      setNotificationMessage(
+      // Show toast notification
+      toast.success(
         language === "gu"
           ? "પંચાંગ ટેક્સ્ટ ક્લિપબોર્ડ પર કોપી થઈ"
           : language === "hi"
-            ? "पंचांग टेक्स्ट क्लिपबोर्ड पर कॉपी हुआ"
+            ? "પંચાંગ ટેક્સ્ટ ક્લિપબોર્ડ પર કોપી હુઆ"
             : "Panchang text copied to clipboard"
       );
-      setShowNotification(true);
-      setTimeout(() => setShowNotification(false), 3000);
     } catch (err) {
       console.error("Failed to copy text:", err);
+      toast.error("Failed to copy text");
     }
   };
 
@@ -348,26 +338,33 @@ export default function PanchangForm() {
       // Update each field with its corresponding extracted data
       Object.entries(extractedData).forEach(([key, value]) => {
         if (key in fieldSetters) {
-          fieldSetters[key as keyof typeof fieldSetters](value);
+          (
+            fieldSetters[key as keyof typeof fieldSetters] as (val: any) => void
+          )(value);
         }
       });
 
       // Clean up the URL
       URL.revokeObjectURL(imageUrl);
 
-      // Show notification
-      setNotificationMessage(
+      // Show toast notification
+      toast.success(
         language === "gu"
           ? "ઇમેજમાંથી ડેટા સફળતાપૂર્વક એક્સટ્રેક્ટ થયો"
           : language === "hi"
-            ? "इमेज से डेटा सफलतापूर्वक एक्सट्रैक्ट हुआ"
+            ? "ઇમેજ સે ડેટા સફળતાપૂર્વક એક્સટ્રેક્ટ હુઆ"
             : "Data successfully extracted from image"
       );
-      setShowNotification(true);
-      setTimeout(() => setShowNotification(false), 3000);
     } catch (error) {
       console.error("Error extracting data from image:", error);
       setExtractionError(t("extractionError"));
+      toast.error(
+        language === "gu"
+          ? "ઇમેજ પ્રોસેસ કરવામાં નિષ્ફળ"
+          : language === "hi"
+            ? "ઇમેજ પ્રોસેસ કરને મેં વિફલ"
+            : "Failed to process image"
+      );
     } finally {
       setIsLoading(false);
       // Reset the file input
@@ -622,13 +619,6 @@ export default function PanchangForm() {
           </div>
         </div>
       </Card>
-
-      {/* Floating notification */}
-      {showNotification && (
-        <div className="fixed top-5 left-1/2 -translate-x-1/2 z-50 bg-emerald-600 text-white px-5 py-2.5 rounded-xl shadow-lg border border-emerald-500/20 font-medium text-sm transition-all duration-300 animate-in fade-in slide-in-from-top-4">
-          {notificationMessage}
-        </div>
-      )}
     </div>
   );
 }

@@ -19,6 +19,7 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Share2, Copy, Facebook, Send, MessageCircle } from "lucide-react";
 import { generateFormattedText } from "../utils";
+import { toast } from "sonner";
 
 interface ShareOptionsProps {
   formData: any;
@@ -40,9 +41,11 @@ export function ShareOptions({ formData, boldFields }: ShareOptionsProps) {
     try {
       await navigator.clipboard.writeText(shareUrl);
       setCopied(true);
+      toast.success("Share link copied to clipboard!");
       setTimeout(() => setCopied(false), 2000);
     } catch (err) {
       console.error("Failed to copy link:", err);
+      toast.error("Failed to copy link");
     }
   };
 
