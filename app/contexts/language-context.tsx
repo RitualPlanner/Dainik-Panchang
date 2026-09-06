@@ -175,19 +175,29 @@ export const translations: Translations = {
     en: "Enter Karan",
   },
   enterSunrise: {
-    gu: "સૂર્યોદય સમય",
-    hi: "सूर्योदय समय",
-    en: "Sunrise Time",
+    gu: "સૂર્યોદય સમય દાખલ કરો",
+    hi: "सूर्योदय का समय दर्ज करें",
+    en: "Enter Sunrise Time",
   },
   enterSunset: {
-    gu: "સૂર્યાસ્ત સમય",
-    hi: "सूर्यास्त समय",
-    en: "Sunset Time",
+    gu: "સૂર્યાસ્ત સમય દાખલ કરો",
+    hi: "सूर्यास्त का समय दर्ज करें",
+    en: "Enter Sunset Time",
   },
   enterRashi: {
-    gu: "આજ ની રાશી",
-    hi: "आज की राशि",
-    en: "Today's Zodiac",
+    gu: "આજ ની રાશી દાખલ કરો",
+    hi: "आज की राशि दर्ज करें",
+    en: "Enter Today's Zodiac",
+  },
+  enterDinMahima: {
+    gu: "દિન મહિમા દાખલ કરો",
+    hi: "दिन महिमा दर्ज करें",
+    en: "Enter Significance",
+  },
+  addField: {
+    gu: "ફીલ્ડ ઉમેરો",
+    hi: "फ़ील्ड जोड़ें",
+    en: "Add Field",
   },
 
   // Festival calendar
