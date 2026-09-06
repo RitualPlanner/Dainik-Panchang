@@ -136,22 +136,22 @@ export default function VikramSamvat() {
   };
 
   return (
-    <div className="space-y-1.5 mt-2 bg-amber-50/60 p-3 rounded-xl border border-amber-100/50 inline-block text-center max-w-full">
-      <div className="flex items-center justify-center gap-2 group text-xs md:text-sm font-medium text-amber-900/85">
+    <div className="space-y-1.5 mt-2 bg-muted/40 p-3 rounded-xl border border-border inline-block text-center max-w-full">
+      <div className="flex items-center justify-center gap-2 group text-xs md:text-sm font-medium text-foreground">
         <span>{line1}</span>
         <Dialog open={isOpen} onOpenChange={setIsOpen}>
           <DialogTrigger asChild>
             <button
-              className="p-1 rounded-md hover:bg-amber-100 text-amber-700/60 hover:text-amber-800 transition-colors"
+              className="p-1 rounded-md hover:bg-accent text-muted-foreground hover:text-foreground transition-colors cursor-pointer"
               onClick={() => handleOpenDialog("line1")}
               title="Edit Details"
             >
               <Edit2 className="h-3 w-3" />
             </button>
           </DialogTrigger>
-          <DialogContent className="w-[calc(100%-2rem)] sm:max-w-[480px] rounded-2xl border border-amber-100 bg-white shadow-xl">
+          <DialogContent className="w-[calc(100%-2rem)] sm:max-w-[480px] rounded-2xl border border-border bg-card text-card-foreground shadow-xl">
             <DialogHeader>
-              <DialogTitle className="font-bold text-amber-950 text-base md:text-lg">
+              <DialogTitle className="font-bold text-foreground text-base md:text-lg">
                 {getT("title")}
               </DialogTitle>
             </DialogHeader>
@@ -159,7 +159,7 @@ export default function VikramSamvat() {
               <div className="grid gap-2">
                 <Label
                   htmlFor="line1"
-                  className="text-amber-900 font-semibold text-xs md:text-sm text-left"
+                  className="text-foreground font-semibold text-xs md:text-sm text-left"
                 >
                   {getT("line1Label")}
                 </Label>
@@ -168,13 +168,13 @@ export default function VikramSamvat() {
                   ref={line1InputRef}
                   value={tempLine1}
                   onChange={(e) => setTempLine1(e.target.value)}
-                  className="rounded-xl border-amber-200 focus-visible:ring-orange-500/30 bg-amber-50/10 text-left"
+                  className="rounded-xl border-border bg-background text-foreground text-left"
                 />
               </div>
               <div className="grid gap-2">
                 <Label
                   htmlFor="line2"
-                  className="text-amber-900 font-semibold text-xs md:text-sm text-left"
+                  className="text-foreground font-semibold text-xs md:text-sm text-left"
                 >
                   {getT("line2Label")}
                 </Label>
@@ -183,7 +183,7 @@ export default function VikramSamvat() {
                   ref={line2InputRef}
                   value={tempLine2}
                   onChange={(e) => setTempLine2(e.target.value)}
-                  className="rounded-xl border-amber-200 focus-visible:ring-orange-500/30 bg-amber-50/10 text-left"
+                  className="rounded-xl border-border bg-background text-foreground text-left"
                 />
               </div>
             </div>
@@ -192,14 +192,14 @@ export default function VikramSamvat() {
                 type="button"
                 variant="outline"
                 onClick={() => setIsOpen(false)}
-                className="border-amber-200 hover:bg-amber-50/50 rounded-xl font-semibold text-amber-900"
+                className="border-border bg-card hover:bg-accent rounded-xl font-semibold text-foreground"
               >
                 {getT("cancel")}
               </Button>
               <Button
                 type="button"
                 onClick={handleSave}
-                className="bg-gradient-to-r from-orange-600 to-amber-500 hover:from-orange-700 hover:to-amber-600 text-white font-semibold rounded-xl shadow-md"
+                className="bg-primary hover:bg-primary/90 text-primary-foreground font-semibold rounded-xl shadow-xs"
               >
                 {getT("save")}
               </Button>
@@ -207,10 +207,10 @@ export default function VikramSamvat() {
           </DialogContent>
         </Dialog>
       </div>
-      <div className="flex items-center justify-center gap-2 group text-xs md:text-sm font-medium text-amber-900/80">
+      <div className="flex items-center justify-center gap-2 group text-xs md:text-sm font-medium text-foreground">
         <span>{line2}</span>
         <button
-          className="p-1 rounded-md hover:bg-amber-100 text-amber-700/60 hover:text-amber-800 transition-colors"
+          className="p-1 rounded-md hover:bg-accent text-muted-foreground hover:text-foreground transition-colors cursor-pointer"
           onClick={() => handleOpenDialog("line2")}
           title="Edit Details"
         >

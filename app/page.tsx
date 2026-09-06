@@ -399,22 +399,22 @@ export default function PanchangForm() {
 
   // Replace the existing Card component with this updated version
   return (
-    <div className="min-h-screen bg-[radial-gradient(ellipse_at_top,_var(--tw-gradient-stops))] from-orange-100/40 via-amber-50/60 to-stone-100/90 dark:from-stone-800/40 dark:via-stone-900/60 dark:to-stone-950/90 py-8 px-4 md:px-8 flex items-center justify-center transition-colors duration-300">
-      <Card className="relative max-w-7xl w-full mx-auto p-6 md:p-10 space-y-6 md:space-y-8 glass-panel border border-amber-200/50 dark:border-stone-800 shadow-2xl rounded-3xl transition-colors duration-300">
-        <div className="flex flex-col border-b border-amber-200/40 pb-6 text-center">
+    <div className="min-h-screen bg-background py-8 px-4 md:px-8 flex items-center justify-center transition-colors duration-300">
+      <Card className="relative max-w-7xl w-full mx-auto p-6 md:p-10 space-y-6 md:space-y-8 bg-card border border-border text-card-foreground shadow-xl rounded-2xl transition-colors duration-300">
+        <div className="flex flex-col border-b border-border pb-6 text-center">
           <div className="flex items-center justify-between w-full mb-4 sm:mb-2">
             <img
               src="https://res.cloudinary.com/db6qh4jsv/image/upload/v1788498372/dainik_panchang_vhzo24.png"
               alt="Dainik Panchang Logo"
-              className="h-10 w-10 sm:h-12 sm:w-12 md:h-16 md:w-16 object-contain hover:scale-105 transition-all duration-200 bg-white p-1 rounded-xl border border-amber-200/40 shadow-sm shrink-0"
+              className="h-10 w-10 sm:h-12 sm:w-12 md:h-16 md:w-16 object-contain hover:scale-105 transition-all duration-200 bg-background p-1 rounded-xl border border-border shadow-xs shrink-0"
             />
-            <div className="flex items-center gap-1.5 sm:gap-2 bg-white/70 dark:bg-stone-800/80 backdrop-blur-sm p-1 sm:p-1.5 rounded-xl border border-amber-200/30 dark:border-stone-700/50 shadow-sm shrink-0">
+            <div className="flex items-center gap-1.5 sm:gap-2 bg-muted/60 backdrop-blur-sm p-1 sm:p-1.5 rounded-xl border border-border shadow-xs shrink-0">
               {mounted && (
                 <>
                   <Button
                     variant="ghost"
                     size="icon"
-                    className="h-8 w-8 rounded-lg text-amber-800 dark:text-amber-200 hover:bg-amber-100/50 dark:hover:bg-stone-700/50 transition-colors"
+                    className="h-8 w-8 rounded-lg text-muted-foreground hover:text-foreground hover:bg-accent transition-colors"
                     onClick={() =>
                       setTheme(theme === "dark" ? "light" : "dark")
                     }
@@ -427,10 +427,10 @@ export default function PanchangForm() {
                     {theme === "dark" ? (
                       <Sun className="h-4 w-4 text-amber-500" />
                     ) : (
-                      <Moon className="h-4 w-4 text-amber-800" />
+                      <Moon className="h-4 w-4 text-foreground" />
                     )}
                   </Button>
-                  <div className="h-4 w-px bg-amber-400 dark:bg-stone-700" />
+                  <div className="h-4 w-px bg-border" />
                 </>
               )}
               <LanguageSwitcher />
@@ -438,12 +438,12 @@ export default function PanchangForm() {
           </div>
           <div className="space-y-3 w-full flex flex-col items-center">
             <h1
-              className={`${getResponsiveFontSize(screenSize.width, 2.5)} font-black text-transparent bg-clip-text bg-gradient-to-r from-red-600 via-orange-600 to-amber-600 tracking-wider drop-shadow-sm spiritual-glow px-2`}
+              className={`${getResponsiveFontSize(screenSize.width, 2.5)} font-black text-transparent bg-clip-text bg-gradient-to-r from-orange-500 via-orange-400 to-amber-400 tracking-wider drop-shadow-sm spiritual-glow px-2`}
             >
               {t("ganeshInvocation")}
             </h1>
             <h2
-              className={`${getResponsiveFontSize(screenSize.width, 1.2)} font-semibold text-amber-800 tracking-wide uppercase`}
+              className={`${getResponsiveFontSize(screenSize.width, 1.2)} font-semibold text-muted-foreground tracking-wide uppercase`}
             >
               {t("panchangHeader")}
             </h2>
@@ -456,7 +456,7 @@ export default function PanchangForm() {
         {extractionError && (
           <Alert
             variant="destructive"
-            className="border-red-200 bg-red-50 text-red-900 rounded-xl"
+            className="border-destructive/50 bg-destructive/10 text-destructive rounded-xl"
           >
             <AlertCircle className="h-4 w-4" />
             <AlertTitle className="font-semibold">{t("error")}</AlertTitle>
@@ -471,7 +471,7 @@ export default function PanchangForm() {
             className={`grid grid-cols-1 ${screenSize.isTablet ? "md:grid-cols-2" : "md:grid-cols-3"} gap-6`}
           >
             <div className="space-y-2">
-              <label className="text-sm font-semibold text-amber-900/80 tracking-wide">
+              <label className="text-sm font-semibold text-foreground tracking-wide">
                 {t("tithi")}
               </label>
               <Input
@@ -480,12 +480,12 @@ export default function PanchangForm() {
                 value={tithi}
                 onChange={handleInputChange}
                 placeholder={t("enterTithi")}
-                className="rounded-xl border-amber-200 bg-white/60 focus:bg-white focus-visible:ring-orange-500/30 hover:border-amber-300 shadow-sm transition-all duration-200 input-premium"
+                className="rounded-xl border-border bg-background text-foreground focus:ring-2 focus:ring-ring hover:border-muted-foreground/40 shadow-xs transition-all duration-200 input-premium"
               />
             </div>
 
             <div className="space-y-2">
-              <label className="text-sm font-semibold text-amber-900/80 tracking-wide">
+              <label className="text-sm font-semibold text-foreground tracking-wide">
                 {t("tarikh")}
               </label>
               <CalendarPicker
@@ -495,7 +495,7 @@ export default function PanchangForm() {
             </div>
 
             <div className="space-y-2">
-              <label className="text-sm font-semibold text-amber-900/80 tracking-wide">
+              <label className="text-sm font-semibold text-foreground tracking-wide">
                 {t("nakshatra")}
               </label>
               <Input
@@ -503,12 +503,12 @@ export default function PanchangForm() {
                 value={nakshatra}
                 onChange={handleInputChange}
                 placeholder={t("enterNakshatra")}
-                className="rounded-xl border-amber-200 bg-white/60 focus:bg-white focus-visible:ring-orange-500/30 hover:border-amber-300 shadow-sm transition-all duration-200 input-premium"
+                className="rounded-xl border-border bg-background text-foreground focus:ring-2 focus:ring-ring hover:border-muted-foreground/40 shadow-xs transition-all duration-200 input-premium"
               />
             </div>
 
             <div className="space-y-2">
-              <label className="text-sm font-semibold text-amber-900/80 tracking-wide">
+              <label className="text-sm font-semibold text-foreground tracking-wide">
                 {t("yog")}
               </label>
               <Input
@@ -516,12 +516,12 @@ export default function PanchangForm() {
                 value={yog}
                 onChange={handleInputChange}
                 placeholder={t("enterYog")}
-                className="rounded-xl border-amber-200 bg-white/60 focus:bg-white focus-visible:ring-orange-500/30 hover:border-amber-300 shadow-sm transition-all duration-200 input-premium"
+                className="rounded-xl border-border bg-background text-foreground focus:ring-2 focus:ring-ring hover:border-muted-foreground/40 shadow-xs transition-all duration-200 input-premium"
               />
             </div>
 
             <div className="space-y-2">
-              <label className="text-sm font-semibold text-amber-900/80 tracking-wide">
+              <label className="text-sm font-semibold text-foreground tracking-wide">
                 {t("karan")}
               </label>
               <Input
@@ -529,12 +529,12 @@ export default function PanchangForm() {
                 value={karan}
                 onChange={handleInputChange}
                 placeholder={t("enterKaran")}
-                className="rounded-xl border-amber-200 bg-white/60 focus:bg-white focus-visible:ring-orange-500/30 hover:border-amber-300 shadow-sm transition-all duration-200 input-premium"
+                className="rounded-xl border-border bg-background text-foreground focus:ring-2 focus:ring-ring hover:border-muted-foreground/40 shadow-xs transition-all duration-200 input-premium"
               />
             </div>
 
             <div className="space-y-2">
-              <label className="text-sm font-semibold text-amber-900/80 tracking-wide">
+              <label className="text-sm font-semibold text-foreground tracking-wide">
                 {t("suryoday")}
               </label>
               <Input
@@ -542,12 +542,12 @@ export default function PanchangForm() {
                 value={suryoday}
                 onChange={handleInputChange}
                 placeholder={t("enterSunrise")}
-                className="rounded-xl border-amber-200 bg-white/60 focus:bg-white focus-visible:ring-orange-500/30 hover:border-amber-300 shadow-sm transition-all duration-200 input-premium"
+                className="rounded-xl border-border bg-background text-foreground focus:ring-2 focus:ring-ring hover:border-muted-foreground/40 shadow-xs transition-all duration-200 input-premium"
               />
             </div>
 
             <div className="space-y-2">
-              <label className="text-sm font-semibold text-amber-900/80 tracking-wide">
+              <label className="text-sm font-semibold text-foreground tracking-wide">
                 {t("suryasta")}
               </label>
               <Input
@@ -555,12 +555,12 @@ export default function PanchangForm() {
                 value={suryasta}
                 onChange={handleInputChange}
                 placeholder={t("enterSunset")}
-                className="rounded-xl border-amber-200 bg-white/60 focus:bg-white focus-visible:ring-orange-500/30 hover:border-amber-300 shadow-sm transition-all duration-200 input-premium"
+                className="rounded-xl border-border bg-background text-foreground focus:ring-2 focus:ring-ring hover:border-muted-foreground/40 shadow-xs transition-all duration-200 input-premium"
               />
             </div>
 
             <div className="space-y-2">
-              <label className="text-sm font-semibold text-amber-900/80 tracking-wide">
+              <label className="text-sm font-semibold text-foreground tracking-wide">
                 {t("aajNiRashi")}
               </label>
               <Input
@@ -568,7 +568,7 @@ export default function PanchangForm() {
                 value={aajNiRashi}
                 onChange={handleInputChange}
                 placeholder={t("enterRashi")}
-                className="rounded-xl border-amber-200 bg-white/60 focus:bg-white focus-visible:ring-orange-500/30 hover:border-amber-300 shadow-sm transition-all duration-200 input-premium"
+                className="rounded-xl border-border bg-background text-foreground focus:ring-2 focus:ring-ring hover:border-muted-foreground/40 shadow-xs transition-all duration-200 input-premium"
               />
             </div>
           </div>
@@ -578,10 +578,10 @@ export default function PanchangForm() {
             onChange={(newFields) => setDinMahima(newFields)}
           />
 
-          <div className="flex gap-3 justify-center flex-wrap pt-4 border-t border-amber-100">
+          <div className="flex gap-3 justify-center flex-wrap pt-4 border-t border-border">
             <Button
               onClick={handleGenerate}
-              className={`bg-gradient-to-r from-orange-600 to-amber-500 hover:from-orange-700 hover:to-amber-600 text-white font-semibold rounded-xl shadow-md shadow-orange-500/20 transition-all duration-200 hover:shadow-lg hover:shadow-orange-500/30 ${screenSize.isMobile ? "text-xs px-3" : "w-44"}`}
+              className={`bg-primary hover:bg-primary/90 text-primary-foreground font-semibold rounded-xl shadow-xs transition-all duration-200 ${screenSize.isMobile ? "text-xs px-3" : "w-44"}`}
             >
               <Download className="mr-2 h-4 w-4" />
               {t("generateImage")}
@@ -590,7 +590,7 @@ export default function PanchangForm() {
             <Button
               onClick={handleGeneratePDF}
               variant="outline"
-              className={`border-amber-200 hover:bg-amber-50/50 font-semibold text-amber-900 rounded-xl transition-all duration-200 ${screenSize.isMobile ? "text-xs px-3" : "w-44"}`}
+              className={`border border-border bg-card hover:bg-accent font-semibold text-foreground rounded-xl transition-all duration-200 ${screenSize.isMobile ? "text-xs px-3" : "w-44"}`}
             >
               <FileText className="mr-2 h-4 w-4 text-orange-500" />
               {t("generatePDF")}
@@ -599,7 +599,7 @@ export default function PanchangForm() {
             <Button
               onClick={handleCopy}
               variant="outline"
-              className={`border-amber-200 hover:bg-amber-50/50 font-semibold text-amber-900 rounded-xl transition-all duration-200 ${screenSize.isMobile ? "text-xs px-3" : "w-44"}`}
+              className={`border border-border bg-card hover:bg-accent font-semibold text-foreground rounded-xl transition-all duration-200 ${screenSize.isMobile ? "text-xs px-3" : "w-44"}`}
             >
               <Copy className="mr-2 h-4 w-4 text-orange-500" />
               {t("copyText")}
@@ -613,7 +613,7 @@ export default function PanchangForm() {
                   <Button
                     onClick={triggerFileInput}
                     variant="outline"
-                    className={`border-amber-200 hover:bg-amber-50/50 font-semibold text-amber-900 rounded-xl transition-all duration-200 ${screenSize.isMobile ? "text-xs px-3" : "w-44"}`}
+                    className={`border border-border bg-card hover:bg-accent font-semibold text-foreground rounded-xl transition-all duration-200 ${screenSize.isMobile ? "text-xs px-3" : "w-44"}`}
                     disabled={isLoading}
                   >
                     <Upload className="mr-2 h-4 w-4 text-orange-500" />
@@ -638,19 +638,19 @@ export default function PanchangForm() {
               <DropdownMenuTrigger asChild>
                 <Button
                   variant="outline"
-                  className={`border-amber-200 dark:border-amber-800/60 hover:bg-amber-50/50 dark:hover:bg-amber-950/40 font-semibold text-amber-900 dark:text-amber-100 rounded-xl transition-all duration-200 ${screenSize.isMobile ? "text-xs px-3" : "w-44"}`}
+                  className={`border border-border bg-card hover:bg-accent font-semibold text-foreground rounded-xl transition-all duration-200 ${screenSize.isMobile ? "text-xs px-3" : "w-44"}`}
                 >
                   {t("makeBold")}
                 </Button>
               </DropdownMenuTrigger>
-              <DropdownMenuContent className="space-y-1 rounded-xl p-2 border-amber-200/50 dark:border-amber-900/50 bg-white dark:bg-stone-900 shadow-xl">
+              <DropdownMenuContent className="space-y-1 rounded-xl p-2 border border-border bg-popover text-popover-foreground shadow-xl">
                 {Object.keys(formData).map((key) => (
                   <DropdownMenuCheckboxItem
                     key={key}
                     checked={isFieldBold(key)}
                     onCheckedChange={() => toggleBoldField(key)}
                     onSelect={(e) => e.preventDefault()}
-                    className="cursor-pointer text-amber-950 dark:text-amber-100 font-medium rounded-lg focus:bg-amber-100/60 dark:focus:bg-amber-950/60"
+                    className="cursor-pointer text-popover-foreground font-medium rounded-lg focus:bg-accent"
                   >
                     {t(key)}
                   </DropdownMenuCheckboxItem>

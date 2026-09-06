@@ -3,12 +3,17 @@ import "./globals.css";
 import "react-day-picker/dist/style.css";
 import { LanguageProvider } from "./contexts/language-context";
 import { ThemeProvider } from "@/components/theme-provider";
-import { Poppins, Cinzel } from "next/font/google";
+import { Poppins, Cinzel, Inter } from "next/font/google";
 
 const poppins = Poppins({
   subsets: ["latin"],
   weight: ["400", "500", "600", "700"],
   variable: "--font-poppins",
+});
+
+const inter = Inter({
+  subsets: ["latin"],
+  variable: "--font-geist-sans",
 });
 
 const cinzel = Cinzel({
@@ -25,11 +30,15 @@ export default function RootLayout({
   return (
     <html
       lang="en"
-      className={`${poppins.variable} ${cinzel.variable}`}
+      className={`${poppins.variable} ${inter.variable} ${cinzel.variable}`}
       suppressHydrationWarning
     >
       <body className="font-sans">
-        <ThemeProvider attribute="class" defaultTheme="light" enableSystem>
+        <ThemeProvider
+          attribute="class"
+          defaultTheme="light"
+          enableSystem={false}
+        >
           <LanguageProvider>{children}</LanguageProvider>
         </ThemeProvider>
       </body>
