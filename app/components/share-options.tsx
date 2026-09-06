@@ -33,7 +33,6 @@ export function ShareOptions({ formData, boldFields }: ShareOptionsProps) {
   const [copied, setCopied] = useState(false);
 
   const handleCopyLink = async () => {
-    const formattedText = generateFormattedText(formData, boldFields);
     const shareUrl = `${window.location.origin}?share=${encodeURIComponent(
       btoa(JSON.stringify({ formData, boldFields }))
     )}`;

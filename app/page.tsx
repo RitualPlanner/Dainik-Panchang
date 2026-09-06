@@ -380,24 +380,24 @@ export default function PanchangForm() {
 
   // Replace the existing Card component with this updated version
   return (
-    <div className="min-h-screen bg-background py-8 px-4 md:px-8 flex items-center justify-center transition-colors duration-300">
-      <Card className="relative max-w-7xl w-full mx-auto p-6 md:p-10 space-y-6 md:space-y-8 bg-card border border-border text-card-foreground shadow-xl rounded-2xl transition-colors duration-300">
+    <div className="min-h-screen bg-background py-4 sm:py-8 px-2 sm:px-4 md:px-8 flex items-center justify-center transition-colors duration-300">
+      <Card className="relative max-w-7xl w-full mx-auto p-4 sm:p-6 md:p-10 space-y-6 md:space-y-8 bg-card border border-border text-card-foreground shadow-xl rounded-2xl transition-colors duration-300">
         <div className="flex flex-col border-b border-border pb-6 text-center">
-          <div className="flex items-center justify-between w-full mb-4 sm:mb-2">
-            <div className="flex items-center gap-2.5 sm:gap-3">
+          <div className="flex items-center justify-between w-full mb-4 sm:mb-2 gap-2 sm:gap-4 overflow-hidden">
+            <div className="flex items-center gap-2 sm:gap-3 min-w-0 shrink">
               <img
                 src={env.NEXT_PUBLIC_LOGO_URL}
                 alt="Dainik Panchang Logo"
-                className="h-10 w-10 sm:h-12 sm:w-12 md:h-16 md:w-16 object-contain hover:scale-105 transition-all duration-200 bg-background p-1 rounded-xl border border-border shadow-xs shrink-0"
+                className="h-9 w-9 sm:h-12 sm:w-12 md:h-14 md:w-14 object-contain hover:scale-105 transition-all duration-200 bg-background p-1 rounded-xl border border-border shadow-xs shrink-0"
               />
-              <span className="text-lg sm:text-xl md:text-2xl font-bold tracking-wider text-foreground select-none">
+              <span className="text-base sm:text-xl md:text-2xl font-bold tracking-tight sm:tracking-wider text-foreground select-none truncate">
                 Dainik
                 <span className="bg-gradient-to-r from-orange-500 via-orange-400 to-amber-400 bg-clip-text text-transparent">
                   Panchang
                 </span>
               </span>
             </div>
-            <div className="flex items-center gap-1.5 sm:gap-2 bg-muted/60 backdrop-blur-sm p-1 sm:p-1.5 rounded-xl border border-border shadow-xs shrink-0">
+            <div className="flex items-center gap-1 sm:gap-2 bg-muted/60 backdrop-blur-sm p-1 sm:p-1.5 rounded-xl border border-border shadow-xs shrink-0">
               <ThemeToggle />
               <div className="h-4 w-px bg-border" />
               <LanguageSwitcher />
