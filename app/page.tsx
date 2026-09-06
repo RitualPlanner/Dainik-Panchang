@@ -13,7 +13,18 @@ import {
   AlertCircle,
   FileText,
   MoreVertical,
+  ExternalLink,
 } from "lucide-react";
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+} from "@/components/ui/alert-dialog";
 import DynamicFields from "./dynamic-fields";
 import {
   generateImage,
@@ -157,6 +168,7 @@ export default function PanchangForm() {
     dinMahima: setDinMahima,
   };
 
+  const [showReleaseNotesAlert, setShowReleaseNotesAlert] = useState(false);
   const [boldFields, setBoldFields] = useState<string[]>([]);
   const [isLoading, setIsLoading] = useState(false);
   const [extractionError, setExtractionError] = useState<string | null>(null);
@@ -408,11 +420,10 @@ export default function PanchangForm() {
                   </span>
                 </span>
                 {/* Desktop Version Badge */}
-                <a
-                  href={`https://github.com/RitualPlanner/dainik-panchang/releases/tag/v${pkg.version}`}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="hidden sm:inline-flex"
+                <button
+                  type="button"
+                  onClick={() => setShowReleaseNotesAlert(true)}
+                  className="hidden sm:inline-flex focus:outline-none focus:ring-2 focus:ring-orange-500/50 rounded-full"
                 >
                   <Badge
                     variant="outline"
@@ -420,7 +431,7 @@ export default function PanchangForm() {
                   >
                     v{pkg.version}
                   </Badge>
-                </a>
+                </button>
               </div>
             </div>
 
@@ -433,11 +444,10 @@ export default function PanchangForm() {
 
             {/* Mobile Controls: Version Badge First + 3 Vertical Dots Menu */}
             <div className="flex sm:hidden items-center gap-1.5 shrink-0">
-              <a
-                href={`https://github.com/RitualPlanner/dainik-panchang/releases/tag/v${pkg.version}`}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="inline-flex"
+              <button
+                type="button"
+                onClick={() => setShowReleaseNotesAlert(true)}
+                className="inline-flex focus:outline-none focus:ring-2 focus:ring-orange-500/50 rounded-full"
               >
                 <Badge
                   variant="outline"
@@ -445,7 +455,7 @@ export default function PanchangForm() {
                 >
                   v{pkg.version}
                 </Badge>
-              </a>
+              </button>
               <DropdownMenu>
                 <DropdownMenuTrigger asChild>
                   <Button
@@ -702,6 +712,51 @@ export default function PanchangForm() {
           </div>
         </div>
       </Card>
+
+      {/* Release Notes Confirmation Alert Dialog */}
+      <AlertDialog
+        open={showReleaseNotesAlert}
+        onOpenChange={setShowReleaseNotesAlert}
+      >
+        <AlertDialogContent
+          onPointerDownOutside={(e) => e.preventDefault()}
+          onEscapeKeyDown={(e) => e.preventDefault()}
+          className="bg-card border border-border text-foreground max-w-md rounded-2xl shadow-2xl p-6 transition-colors duration-300"
+        >
+          <AlertDialogHeader>
+            <AlertDialogTitle className="text-lg font-bold text-foreground flex items-center gap-2">
+              <ExternalLink className="h-5 w-5 text-orange-500 shrink-0" />
+              બાહ્ય વેબસાઇટ પર રીડાયરેક્ટ
+            </AlertDialogTitle>
+            <AlertDialogDescription className="text-sm text-muted-foreground mt-2 leading-relaxed">
+              આ લિંક તમને બાહ્ય વેબસાઇટ (GitHub) પર લઈ જશે જ્યાં તમે નવીનતમ
+              સંસ્કરણ (v{pkg.version}) ની રિલીઝ નોટ્સ વાંચી શકશો. શું તમે આગળ
+              વધવા માગો છો?
+            </AlertDialogDescription>
+          </AlertDialogHeader>
+          <AlertDialogFooter className="mt-6 flex flex-col-reverse sm:flex-row gap-2 sm:gap-3 sm:justify-end">
+            <AlertDialogCancel
+              onClick={() => setShowReleaseNotesAlert(false)}
+              className="rounded-xl border border-border bg-background hover:bg-muted text-foreground hover:text-foreground cursor-pointer font-medium"
+            >
+              રદ કરો
+            </AlertDialogCancel>
+            <AlertDialogAction
+              onClick={() => {
+                setShowReleaseNotesAlert(false);
+                window.open(
+                  `https://github.com/RitualPlanner/dainik-panchang/releases/tag/v${pkg.version}`,
+                  "_blank",
+                  "noopener,noreferrer"
+                );
+              }}
+              className="rounded-xl bg-orange-500 hover:bg-orange-600 text-white dark:bg-orange-600 dark:hover:bg-orange-500 border-none cursor-pointer font-medium shadow-sm transition-colors"
+            >
+              હા, આગળ વધો
+            </AlertDialogAction>
+          </AlertDialogFooter>
+        </AlertDialogContent>
+      </AlertDialog>
     </div>
   );
 }
