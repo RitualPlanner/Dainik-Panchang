@@ -26,7 +26,6 @@ import {
 import { generatePDF } from "./utils/pdf-export";
 import { getCurrentGujaratiDate } from "./utils/date-utils";
 import EditableText from "./EditableText";
-import { useLocalStorageWithExpiry } from "./hooks/useLocalStorageWithExpiry";
 import { CalendarPicker } from "./components/calendar-picker";
 import { type ThemeOption } from "./components/theme-selector";
 import { ShareOptions } from "./components/share-options";
@@ -83,41 +82,18 @@ export default function PanchangForm() {
   const { t, language } = useLanguage();
   const screenSize = useScreenSize();
 
-  // Use localStorage with expiry for each field
-  const [tithi, setTithi] = useLocalStorageWithExpiry(
-    "panchang_tithi",
-    defaultFormData.tithi
-  );
-  const [tarikh, setTarikh] = useLocalStorageWithExpiry(
-    "panchang_tarikh",
-    defaultFormData.tarikh
-  );
-  const [nakshatra, setNakshatra] = useLocalStorageWithExpiry(
-    "panchang_nakshatra",
-    defaultFormData.nakshatra
-  );
-  const [yog, setYog] = useLocalStorageWithExpiry(
-    "panchang_yog",
-    defaultFormData.yog
-  );
-  const [karan, setKaran] = useLocalStorageWithExpiry(
-    "panchang_karan",
-    defaultFormData.karan
-  );
-  const [suryoday, setSuryoday] = useLocalStorageWithExpiry(
-    "panchang_suryoday",
-    defaultFormData.suryoday
-  );
-  const [suryasta, setSuryasta] = useLocalStorageWithExpiry(
-    "panchang_suryasta",
-    defaultFormData.suryasta
-  );
-  const [aajNiRashi, setAajNiRashi] = useLocalStorageWithExpiry(
-    "panchang_aajNiRashi",
+  // Form state fields (initialized empty on load/refresh)
+  const [tithi, setTithi] = useState<string>(defaultFormData.tithi);
+  const [tarikh, setTarikh] = useState<string>(defaultFormData.tarikh);
+  const [nakshatra, setNakshatra] = useState<string>(defaultFormData.nakshatra);
+  const [yog, setYog] = useState<string>(defaultFormData.yog);
+  const [karan, setKaran] = useState<string>(defaultFormData.karan);
+  const [suryoday, setSuryoday] = useState<string>(defaultFormData.suryoday);
+  const [suryasta, setSuryasta] = useState<string>(defaultFormData.suryasta);
+  const [aajNiRashi, setAajNiRashi] = useState<string>(
     defaultFormData.aajNiRashi
   );
-  const [dinMahima, setDinMahima] = useLocalStorageWithExpiry(
-    "panchang_dinMahima",
+  const [dinMahima, setDinMahima] = useState<string[]>(
     defaultFormData.dinMahima
   );
 
