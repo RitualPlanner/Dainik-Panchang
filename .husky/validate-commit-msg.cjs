@@ -1,4 +1,3 @@
-// eslint-disable-next-line @typescript-eslint/no-require-imports
 const fs = require('fs');
 
 const commitMsgFile = process.argv[2];
