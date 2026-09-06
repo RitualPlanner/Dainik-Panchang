@@ -4,74 +4,74 @@
 
 @layer base {
   body {
-    font-family: var(--font-poppins), sans-serif;
+    font-family: var(--font-poppins), var(--font-geist-sans), sans-serif;
   }
   h1, h2, h3, .spiritual-header {
-    font-family: var(--font-cinzel), serif;
+    font-family: var(--font-cinzel), var(--font-poppins), serif;
   }
   :root {
-    --background: 30 40% 98%;
-    --foreground: 20 60% 15%;
+    --background: 0 0% 100%;
+    --foreground: 240 5.9% 3.5%;
 
     --card: 0 0% 100%;
-    --card-foreground: 20 60% 15%;
+    --card-foreground: 240 5.9% 3.5%;
 
     --popover: 0 0% 100%;
-    --popover-foreground: 20 60% 15%;
+    --popover-foreground: 240 5.9% 3.5%;
 
-    --primary: 24 95% 50%;
-    --primary-foreground: 36 100% 97%;
+    --primary: 24.6 95% 53.1%;
+    --primary-foreground: 0 0% 100%;
 
-    --secondary: 38 92% 95%;
-    --secondary-foreground: 24 95% 35%;
+    --secondary: 240 4.8% 95.9%;
+    --secondary-foreground: 240 5.9% 10%;
 
-    --muted: 30 20% 94%;
-    --muted-foreground: 25 15% 45%;
+    --muted: 240 4.8% 95.9%;
+    --muted-foreground: 240 3.8% 46.1%;
 
-    --accent: 38 92% 90%;
-    --accent-foreground: 24 95% 30%;
+    --accent: 240 4.8% 95.9%;
+    --accent-foreground: 240 5.9% 10%;
 
-    --destructive: 0 84% 60%;
-    --destructive-foreground: 210 40% 98%;
+    --destructive: 0 84.2% 60.2%;
+    --destructive-foreground: 0 0% 100%;
 
-    --border: 30 30% 90%;
-    --input: 30 30% 90%;
-    --ring: 24 95% 50%;
+    --border: 240 5.9% 90%;
+    --input: 240 5.9% 90%;
+    --ring: 24.6 95% 53.1%;
 
-    --radius: 0.75rem;
+    --radius: 0.625rem;
 
     --rdp-accent-color: hsl(var(--primary));
     --rdp-accent-background-color: hsl(var(--primary));
   }
 
   .dark {
-    --background: 24 15% 10%;
-    --foreground: 36 100% 97%;
+    --background: 240 3.7% 6.1%;
+    --foreground: 0 0% 100%;
 
-    --card: 24 15% 15%;
-    --card-foreground: 36 100% 97%;
+    --card: 240 3.8% 9.4%;
+    --card-foreground: 0 0% 100%;
 
-    --popover: 24 15% 15%;
-    --popover-foreground: 36 100% 97%;
+    --popover: 240 3.8% 9.4%;
+    --popover-foreground: 0 0% 100%;
 
-    --primary: 28 95% 55%;
-    --primary-foreground: 24 15% 15%;
+    --primary: 24.6 95% 53.1%;
+    --primary-foreground: 0 0% 100%;
 
-    --secondary: 24 15% 20%;
-    --secondary-foreground: 38 92% 90%;
+    --secondary: 240 5.4% 13.5%;
+    --secondary-foreground: 0 0% 100%;
 
-    --muted: 24 15% 18%;
-    --muted-foreground: 30 15% 65%;
+    --muted: 240 4.3% 11.6%;
+    --muted-foreground: 218 11% 65%;
 
-    --accent: 28 85% 22%;
-    --accent-foreground: 38 92% 90%;
+    --accent: 240 5.4% 13.5%;
+    --accent-foreground: 0 0% 100%;
 
-    --destructive: 0 62.8% 30.6%;
-    --destructive-foreground: 210 40% 98%;
+    --destructive: 0 84.2% 60.2%;
+    --destructive-foreground: 0 0% 100%;
 
-    --border: 24 12% 20%;
-    --input: 24 12% 20%;
-    --ring: 28 95% 55%;
+    --border: 240 4% 15.5%;
+    --input: 240 4% 15.5%;
+    --ring: 24.6 95% 53.1%;
 
     --rdp-accent-color: hsl(var(--primary));
     --rdp-accent-background-color: hsl(var(--primary));
@@ -104,21 +104,21 @@
 
 /* Custom premium design classes */
 .glass-panel {
-  background: rgba(255, 255, 255, 0.88);
+  background: rgba(255, 255, 255, 0.92);
   backdrop-filter: blur(16px);
-  border: 1px solid rgba(245, 158, 11, 0.25);
-  box-shadow: 0 8px 32px 0 rgba(139, 92, 26, 0.08);
+  border: 1px solid #e4e4e7;
+  box-shadow: 0 4px 20px 0 rgba(0, 0, 0, 0.05);
 }
 
 .dark .glass-panel {
-  background: rgba(35, 29, 23, 0.88);
+  background: rgba(23, 23, 25, 0.92);
   backdrop-filter: blur(16px);
-  border: 1px solid rgba(245, 158, 11, 0.18);
-  box-shadow: 0 12px 40px 0 rgba(0, 0, 0, 0.45);
+  border: 1px solid #262629;
+  box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.5);
 }
 
 .spiritual-glow {
-  text-shadow: 0 0 10px rgba(245, 158, 11, 0.3);
+  text-shadow: 0 0 10px rgba(249, 115, 22, 0.35);
 }
 
 .spiritual-border {
@@ -132,7 +132,7 @@
   transform: translateX(-50%);
   width: 80px;
   height: 2px;
-  background: linear-gradient(90deg, transparent, #f59e0b, transparent);
+  background: linear-gradient(90deg, transparent, #f97316, transparent);
 }
 
 .spiritual-border::before {
@@ -148,78 +148,79 @@
 }
 
 .input-premium:focus {
-  border-color: #f57c00;
-  box-shadow: 0 0 0 3px rgba(245, 124, 0, 0.15);
+  border-color: #f97316;
+  box-shadow: 0 0 0 3px rgba(249, 115, 22, 0.18);
   transform: translateY(-1px);
 }
 
 /* Premium Dark Mode overrides */
 .dark .input-premium {
-  background-color: rgba(24, 18, 12, 0.55) !important;
-  border-color: rgba(245, 158, 11, 0.15) !important;
-  color: #fdfaf5 !important;
+  background-color: rgba(28, 28, 31, 0.75) !important;
+  border-color: #262629 !important;
+  color: #ffffff !important;
 }
 
 .dark .input-premium::placeholder {
-  color: rgba(253, 250, 245, 0.35) !important;
+  color: rgba(255, 255, 255, 0.45) !important;
 }
 
 .dark .input-premium:focus {
-  background-color: rgba(24, 18, 12, 0.8) !important;
-  border-color: rgba(245, 158, 11, 0.4) !important;
-  box-shadow: 0 0 0 3px rgba(245, 158, 11, 0.1) !important;
+  background-color: rgba(28, 28, 31, 0.95) !important;
+  border-color: #f97316 !important;
+  box-shadow: 0 0 0 3px rgba(249, 115, 22, 0.2) !important;
 }
 
 .dark label {
-  color: rgba(253, 230, 138, 0.85) !important;
+  color: #e4e4e7 !important;
 }
 
 .dark .text-amber-800 {
-  color: #fcd34d !important;
+  color: #fb923c !important;
 }
 
 .dark .text-amber-900 {
-  color: #fde68a !important;
+  color: #fdba74 !important;
 }
 
 .dark .text-amber-900\/80 {
-  color: rgba(253, 230, 138, 0.75) !important;
+  color: rgba(253, 186, 116, 0.8) !important;
 }
 
 .dark .text-amber-900\/85 {
-  color: rgba(253, 230, 138, 0.9) !important;
+  color: rgba(253, 186, 116, 0.85) !important;
 }
 
 .dark .text-amber-900\/90 {
-  color: rgba(253, 230, 138, 0.95) !important;
+  color: rgba(253, 186, 116, 0.9) !important;
 }
 
 .dark .border-amber-200 {
-  border-color: rgba(245, 158, 11, 0.22) !important;
+  border-color: rgba(249, 115, 22, 0.25) !important;
 }
 
 .dark .border-amber-200\/70 {
-  border-color: rgba(245, 158, 11, 0.22) !important;
+  border-color: rgba(249, 115, 22, 0.25) !important;
 }
 
 .dark .border-amber-100\/50 {
-  border-color: rgba(245, 158, 11, 0.18) !important;
+  border-color: rgba(249, 115, 22, 0.2) !important;
 }
 
 .dark .bg-amber-50\/60 {
-  background-color: rgba(35, 29, 23, 0.6) !important;
+  background-color: rgba(32, 32, 37, 0.6) !important;
 }
 
 .dark .bg-amber-50\/20 {
-  background-color: rgba(35, 29, 23, 0.4) !important;
+  background-color: rgba(32, 32, 37, 0.4) !important;
 }
 
 .dark .hover\:bg-amber-50\/50:hover {
-  background-color: rgba(245, 158, 11, 0.08) !important;
+  background-color: rgba(249, 115, 22, 0.1) !important;
 }
 
 .dark .hover\:bg-amber-50\/40:hover {
-  background-color: rgba(245, 158, 11, 0.12) !important;
+  background-color: rgba(249, 115, 22, 0.12) !important;
 }
+
 
 
