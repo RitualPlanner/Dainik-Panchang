@@ -79,9 +79,6 @@ export const generateImage = async (
   };
 
   // Add tithi and date
-  ctx.fillText(`\n`, 50, y);
-  y += 30;
-
   setFont("tithi");
   ctx.fillText(`- તિથિ - ${formData.tithi}`, 50, y);
   y += 30;
