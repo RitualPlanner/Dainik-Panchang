@@ -66,7 +66,7 @@ export const generateImage = async (
   // Add form data
   ctx.font = "20px Arial";
   ctx.textAlign = "left";
-  let y = 260;
+  let y = 285;
 
   // Function to set font based on boldFields
   const setFont = (field: string) => {
@@ -175,7 +175,7 @@ export const generateFormattedText = (
   text += line1;
   text += "\n";
   text += line2;
-  text += "\n\n";
+  text += "\n\n\n";
 
   // Rest of the function remains the same
   // Add tithi and date
