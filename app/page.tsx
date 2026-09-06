@@ -2,7 +2,7 @@
 
 import type React from "react";
 
-import { useState, useRef, useEffect } from "react";
+import { useState, useRef, useEffect, useCallback } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Card } from "@/components/ui/card";
@@ -13,8 +13,10 @@ import {
   AlertCircle,
   FileText,
   MoreVertical,
+  RotateCcw,
 } from "lucide-react";
 import { WhatsNewModal } from "@/components/whats-new-modal";
+import { RefreshConfirmModal } from "@/components/refresh-confirm-modal";
 import DynamicFields from "./dynamic-fields";
 import {
   generateImage,
@@ -24,7 +26,6 @@ import {
 import { generatePDF } from "./utils/pdf-export";
 import { getCurrentGujaratiDate } from "./utils/date-utils";
 import EditableText from "./EditableText";
-import { useLocalStorageWithExpiry } from "./hooks/useLocalStorageWithExpiry";
 import { CalendarPicker } from "./components/calendar-picker";
 import { type ThemeOption } from "./components/theme-selector";
 import { ShareOptions } from "./components/share-options";
@@ -81,41 +82,18 @@ export default function PanchangForm() {
   const { t, language } = useLanguage();
   const screenSize = useScreenSize();
 
-  // Use localStorage with expiry for each field
-  const [tithi, setTithi] = useLocalStorageWithExpiry(
-    "panchang_tithi",
-    defaultFormData.tithi
-  );
-  const [tarikh, setTarikh] = useLocalStorageWithExpiry(
-    "panchang_tarikh",
-    defaultFormData.tarikh
-  );
-  const [nakshatra, setNakshatra] = useLocalStorageWithExpiry(
-    "panchang_nakshatra",
-    defaultFormData.nakshatra
-  );
-  const [yog, setYog] = useLocalStorageWithExpiry(
-    "panchang_yog",
-    defaultFormData.yog
-  );
-  const [karan, setKaran] = useLocalStorageWithExpiry(
-    "panchang_karan",
-    defaultFormData.karan
-  );
-  const [suryoday, setSuryoday] = useLocalStorageWithExpiry(
-    "panchang_suryoday",
-    defaultFormData.suryoday
-  );
-  const [suryasta, setSuryasta] = useLocalStorageWithExpiry(
-    "panchang_suryasta",
-    defaultFormData.suryasta
-  );
-  const [aajNiRashi, setAajNiRashi] = useLocalStorageWithExpiry(
-    "panchang_aajNiRashi",
+  // Form state fields (initialized empty on load/refresh)
+  const [tithi, setTithi] = useState<string>(defaultFormData.tithi);
+  const [tarikh, setTarikh] = useState<string>(defaultFormData.tarikh);
+  const [nakshatra, setNakshatra] = useState<string>(defaultFormData.nakshatra);
+  const [yog, setYog] = useState<string>(defaultFormData.yog);
+  const [karan, setKaran] = useState<string>(defaultFormData.karan);
+  const [suryoday, setSuryoday] = useState<string>(defaultFormData.suryoday);
+  const [suryasta, setSuryasta] = useState<string>(defaultFormData.suryasta);
+  const [aajNiRashi, setAajNiRashi] = useState<string>(
     defaultFormData.aajNiRashi
   );
-  const [dinMahima, setDinMahima] = useLocalStorageWithExpiry(
-    "panchang_dinMahima",
+  const [dinMahima, setDinMahima] = useState<string[]>(
     defaultFormData.dinMahima
   );
 
@@ -159,9 +137,106 @@ export default function PanchangForm() {
   };
 
   const [showReleaseNotesAlert, setShowReleaseNotesAlert] = useState(false);
+  const [showRefreshConfirmModal, setShowRefreshConfirmModal] = useState(false);
   const [boldFields, setBoldFields] = useState<string[]>([]);
   const [isLoading, setIsLoading] = useState(false);
   const [extractionError, setExtractionError] = useState<string | null>(null);
+
+  // Function to reset all inputs & keep only 1 default empty din mahima row
+  const handleResetData = useCallback(() => {
+    const keysToRemove = [
+      "panchang_tithi",
+      "panchang_tarikh",
+      "panchang_nakshatra",
+      "panchang_yog",
+      "panchang_karan",
+      "panchang_suryoday",
+      "panchang_suryasta",
+      "panchang_aajNiRashi",
+      "panchang_dinMahima",
+      "panchang_boldFields",
+    ];
+
+    keysToRemove.forEach((k) => localStorage.removeItem(k));
+
+    setTithi("");
+    setTarikh(getCurrentGujaratiDate());
+    setNakshatra("");
+    setYog("");
+    setKaran("");
+    setSuryoday("");
+    setSuryasta("");
+    setAajNiRashi("");
+    setDinMahima([""]);
+    setBoldFields([]);
+
+    toast.success(
+      language === "gu"
+        ? "તમામ ડેટા સફળતાપૂર્વક રીસેટ થયો છે"
+        : language === "hi"
+          ? "सभी डेटा सफलतापूर्वक रीसेट हो गया है"
+          : "All form data has been successfully reset"
+    );
+  }, [
+    language,
+    setTithi,
+    setTarikh,
+    setNakshatra,
+    setYog,
+    setKaran,
+    setSuryoday,
+    setSuryasta,
+    setAajNiRashi,
+    setDinMahima,
+  ]);
+
+  // Automatic Reset on Midnight / Date Change
+  useEffect(() => {
+    if (typeof window === "undefined") return;
+
+    const checkDateAndMidnightReset = () => {
+      const todayDateStr = new Date().toDateString();
+      const lastSavedDate = localStorage.getItem("panchang_last_saved_date");
+
+      if (lastSavedDate && lastSavedDate !== todayDateStr) {
+        handleResetData();
+        localStorage.setItem("panchang_last_saved_date", todayDateStr);
+      } else if (!lastSavedDate) {
+        localStorage.setItem("panchang_last_saved_date", todayDateStr);
+      }
+    };
+
+    checkDateAndMidnightReset();
+
+    const interval = setInterval(checkDateAndMidnightReset, 30000);
+    return () => clearInterval(interval);
+  }, [handleResetData]);
+
+  // Browser BeforeUnload (Page Refresh) Warning when inputs contain data
+  useEffect(() => {
+    if (typeof window === "undefined") return;
+
+    const hasEnteredData =
+      Boolean(tithi.trim()) ||
+      Boolean(nakshatra.trim()) ||
+      Boolean(yog.trim()) ||
+      Boolean(karan.trim()) ||
+      Boolean(suryoday.trim()) ||
+      Boolean(suryasta.trim()) ||
+      Boolean(aajNiRashi.trim()) ||
+      dinMahima.some((item) => Boolean(item.trim()));
+
+    if (!hasEnteredData) return;
+
+    const handleBeforeUnload = (e: BeforeUnloadEvent) => {
+      e.preventDefault();
+      e.returnValue = "";
+      return "";
+    };
+
+    window.addEventListener("beforeunload", handleBeforeUnload);
+    return () => window.removeEventListener("beforeunload", handleBeforeUnload);
+  }, [tithi, nakshatra, yog, karan, suryoday, suryasta, aajNiRashi, dinMahima]);
   const [currentTheme, setCurrentTheme] = useState<ThemeOption>({
     id: "default",
     name: "મૂળભૂત",
@@ -245,6 +320,17 @@ export default function PanchangForm() {
     }
   };
 
+  const getFormattedFilenameDate = (tarikhStr: string) => {
+    if (!tarikhStr || !tarikhStr.trim()) {
+      const today = new Date();
+      const d = String(today.getDate()).padStart(2, "0");
+      const m = String(today.getMonth() + 1).padStart(2, "0");
+      const y = today.getFullYear();
+      return `${d}-${m}-${y}`;
+    }
+    return tarikhStr.trim().replace(/[/\\:*?"<>|]/g, "-");
+  };
+
   const handleGenerate = async () => {
     const imageBlob = await generateImage(
       formData,
@@ -253,10 +339,11 @@ export default function PanchangForm() {
       selectedOverlay
     );
     const imageUrl = URL.createObjectURL(imageBlob);
+    const filenameDate = getFormattedFilenameDate(formData.tarikh);
 
     const downloadLink = document.createElement("a");
     downloadLink.href = imageUrl;
-    downloadLink.download = "panchang.png";
+    downloadLink.download = `${filenameDate} - panchang.jpeg`;
     document.body.appendChild(downloadLink);
     downloadLink.click();
     document.body.removeChild(downloadLink);
@@ -274,10 +361,11 @@ export default function PanchangForm() {
   const handleGeneratePDF = async () => {
     const pdfBlob = await generatePDF(formData, boldFields);
     const pdfUrl = URL.createObjectURL(pdfBlob);
+    const filenameDate = getFormattedFilenameDate(formData.tarikh);
 
     const downloadLink = document.createElement("a");
     downloadLink.href = pdfUrl;
-    downloadLink.download = "panchang.pdf";
+    downloadLink.download = `${filenameDate} - panchang.pdf`;
     document.body.appendChild(downloadLink);
     downloadLink.click();
     document.body.removeChild(downloadLink);
@@ -425,11 +513,33 @@ export default function PanchangForm() {
               </div>
             </div>
 
-            {/* Desktop Controls (Inline Theme & Language) */}
+            {/* Desktop Controls (Inline Theme, Language & Reset) */}
             <div className="hidden sm:flex items-center gap-1.5 sm:gap-2 bg-muted/60 backdrop-blur-sm p-1 sm:p-1.5 rounded-xl border border-border shadow-xs shrink-0">
               <ThemeToggle />
               <div className="h-4 w-px bg-border" />
               <LanguageSwitcher />
+              <div className="h-4 w-px bg-border" />
+              <Button
+                variant="ghost"
+                onClick={() => setShowRefreshConfirmModal(true)}
+                title={
+                  language === "gu"
+                    ? "ડેટા રીસેટ કરો"
+                    : language === "hi"
+                      ? "डेटा रीसेट करें"
+                      : "Reset Data"
+                }
+                className="h-8 px-2.5 sm:px-3 rounded-lg hover:bg-accent text-foreground cursor-pointer text-xs font-medium flex items-center justify-between gap-2 transition-colors"
+              >
+                <span>
+                  {language === "gu"
+                    ? "ડેટા રીસેટ કરો"
+                    : language === "hi"
+                      ? "डेटा रीसेट करें"
+                      : "Reset Data"}
+                </span>
+                <RotateCcw className="h-3.5 w-3.5 text-orange-500 shrink-0" />
+              </Button>
             </div>
 
             {/* Mobile Controls: Version Badge First + 3 Vertical Dots Menu */}
@@ -474,6 +584,21 @@ export default function PanchangForm() {
                     </span>
                     <LanguageSwitcher />
                   </div>
+                  <div className="h-px bg-border my-1" />
+                  <button
+                    type="button"
+                    onClick={() => setShowRefreshConfirmModal(true)}
+                    className="flex items-center justify-between w-full px-2 py-1 text-xs font-medium text-foreground hover:bg-accent rounded-lg cursor-pointer transition-colors"
+                  >
+                    <span>
+                      {language === "gu"
+                        ? "ડેટા રીસેટ કરો"
+                        : language === "hi"
+                          ? "डेटा रीसेट करें"
+                          : "Reset Data"}
+                    </span>
+                    <RotateCcw className="h-3.5 w-3.5 text-orange-500" />
+                  </button>
                 </DropdownMenuContent>
               </DropdownMenu>
             </div>
@@ -707,6 +832,13 @@ export default function PanchangForm() {
       <WhatsNewModal
         open={showReleaseNotesAlert}
         onOpenChange={setShowReleaseNotesAlert}
+      />
+
+      {/* Page Refresh / Reset Data Confirmation Modal */}
+      <RefreshConfirmModal
+        open={showRefreshConfirmModal}
+        onOpenChange={setShowRefreshConfirmModal}
+        onConfirm={handleResetData}
       />
     </div>
   );
