@@ -410,7 +410,7 @@ export default function PanchangForm() {
                 {/* Desktop Version Badge */}
                 <Badge
                   variant="outline"
-                  className="hidden sm:inline-flex text-xs font-mono font-medium px-2 py-0.5 rounded-full border-amber-500/30 dark:border-amber-400/30 bg-amber-500/10 text-amber-700 dark:text-amber-300 shrink-0 select-none"
+                  className="hidden sm:inline-flex text-xs font-mono font-medium px-2 py-0.5 rounded-full border-orange-500/30 dark:border-orange-500/40 bg-orange-500/10 text-orange-600 dark:text-orange-400 shrink-0 select-none"
                 >
                   v{pkg.version}
                 </Badge>
@@ -428,7 +428,7 @@ export default function PanchangForm() {
             <div className="flex sm:hidden items-center gap-1.5 shrink-0">
               <Badge
                 variant="outline"
-                className="text-[10px] font-mono font-medium px-1.5 py-0.5 rounded-full border-amber-500/30 dark:border-amber-400/30 bg-amber-500/10 text-amber-700 dark:text-amber-300 shrink-0 select-none"
+                className="text-[10px] font-mono font-medium px-1.5 py-0.5 rounded-full border-orange-500/30 dark:border-orange-500/40 bg-orange-500/10 text-orange-600 dark:text-orange-400 shrink-0 select-none"
               >
                 v{pkg.version}
               </Badge>
