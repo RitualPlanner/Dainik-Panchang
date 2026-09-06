@@ -33,9 +33,9 @@ export function WhatsNewModal({ open, onOpenChange }: WhatsNewModalProps) {
   // Content localized for Gujarati, Hindi, and English
   const content = {
     title: {
-      gu: `નવું શું છે v${pkg.version}`,
-      hi: `नया क्या है v${pkg.version}`,
-      en: `What's New in v${pkg.version}`,
+      gu: `નવું શું છે v${pkg.version}?`,
+      hi: `नया क्या है v${pkg.version}?`,
+      en: `What's New in v${pkg.version}?`,
     },
     subtitle: {
       gu: `દૈનિક પંચાંગ v${pkg.version} માં આપનું સ્વાગત છે! તમારા અનુભવને વધુ શ્રેષ્ઠ બનાવવા માટે કરવામાં આવેલા સુધારા:`,
@@ -120,21 +120,17 @@ export function WhatsNewModal({ open, onOpenChange }: WhatsNewModalProps) {
 
   return (
     <AlertDialog open={open} onOpenChange={onOpenChange}>
-      <AlertDialogContent
-        onPointerDownOutside={(e) => e.preventDefault()}
-        onEscapeKeyDown={(e) => e.preventDefault()}
-        className="bg-card border border-border text-foreground max-w-[92vw] sm:max-w-lg md:max-w-xl rounded-3xl shadow-2xl p-6 sm:p-8 transition-colors duration-300 max-h-[90vh] overflow-y-auto"
-      >
-        <AlertDialogHeader className="space-y-2 text-left">
-          <div className="flex items-center gap-2">
-            <span className="inline-flex items-center justify-center p-2 rounded-2xl bg-orange-500/10 text-orange-600 dark:text-orange-400 border border-orange-500/20">
+      <AlertDialogContent className="font-sans bg-card border border-border text-foreground max-w-[92vw] sm:max-w-lg md:max-w-xl rounded-3xl shadow-2xl p-6 sm:p-8 transition-colors duration-300 max-h-[90vh] overflow-y-auto">
+        <AlertDialogHeader className="space-y-2.5 text-left">
+          <div className="flex items-center gap-2.5">
+            <span className="inline-flex items-center justify-center p-2 rounded-2xl bg-orange-500/10 text-orange-600 dark:text-orange-400 border border-orange-500/20 shrink-0">
               <Sparkles className="h-6 w-6" />
             </span>
-            <AlertDialogTitle className="text-xl sm:text-2xl font-extrabold text-foreground tracking-tight">
+            <AlertDialogTitle className="text-xl sm:text-2xl font-bold text-foreground tracking-wide">
               {content.title[langKey]}
             </AlertDialogTitle>
           </div>
-          <AlertDialogDescription className="text-sm sm:text-base text-muted-foreground leading-relaxed pt-1">
+          <AlertDialogDescription className="text-sm sm:text-base text-muted-foreground leading-relaxed tracking-wide pt-1">
             {content.subtitle[langKey]}
           </AlertDialogDescription>
         </AlertDialogHeader>
@@ -146,18 +142,18 @@ export function WhatsNewModal({ open, onOpenChange }: WhatsNewModalProps) {
             return (
               <div
                 key={idx}
-                className="flex items-start gap-3.5 p-3.5 sm:p-4 rounded-2xl bg-muted/40 dark:bg-muted/20 border border-border/60 transition-all duration-200 hover:border-orange-500/30"
+                className="flex items-start gap-4 p-4 rounded-2xl bg-muted/40 dark:bg-muted/20 border border-border/60 transition-all duration-200 hover:border-orange-500/30"
               >
                 <div
-                  className={`p-2 rounded-xl shrink-0 border ${feature.badgeColor}`}
+                  className={`p-2.5 rounded-xl shrink-0 border ${feature.badgeColor}`}
                 >
                   <Icon className="h-5 w-5" />
                 </div>
-                <div className="space-y-1">
-                  <h4 className="text-sm sm:text-base font-bold text-foreground">
+                <div className="space-y-1.5">
+                  <h4 className="text-sm sm:text-base font-semibold text-foreground tracking-wide">
                     {feature.title[langKey]}
                   </h4>
-                  <p className="text-xs sm:text-sm text-muted-foreground leading-relaxed">
+                  <p className="text-xs sm:text-sm text-muted-foreground leading-relaxed tracking-wide">
                     {feature.description[langKey]}
                   </p>
                 </div>
