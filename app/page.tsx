@@ -170,12 +170,12 @@ export default function PanchangForm() {
     setDinMahima([""]);
     setBoldFields([]);
 
-    toast.info(
+    toast.success(
       language === "gu"
-        ? "તમામ ડેટા રીસેટ થયો છે"
+        ? "તમામ ડેટા સફળતાપૂર્વક રીસેટ થયો છે"
         : language === "hi"
-          ? "सभी डेटा रीसेट हो गया है"
-          : "All form data has been reset"
+          ? "सभी डेटा सफलतापूर्वक रीसेट हो गया है"
+          : "All form data has been successfully reset"
     );
   }, [
     language,
