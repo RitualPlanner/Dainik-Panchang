@@ -245,6 +245,17 @@ export default function PanchangForm() {
     }
   };
 
+  const getFormattedFilenameDate = (tarikhStr: string) => {
+    if (!tarikhStr || !tarikhStr.trim()) {
+      const today = new Date();
+      const d = String(today.getDate()).padStart(2, "0");
+      const m = String(today.getMonth() + 1).padStart(2, "0");
+      const y = today.getFullYear();
+      return `${d}-${m}-${y}`;
+    }
+    return tarikhStr.trim().replace(/[/\\:*?"<>|]/g, "-");
+  };
+
   const handleGenerate = async () => {
     const imageBlob = await generateImage(
       formData,
@@ -253,10 +264,11 @@ export default function PanchangForm() {
       selectedOverlay
     );
     const imageUrl = URL.createObjectURL(imageBlob);
+    const filenameDate = getFormattedFilenameDate(formData.tarikh);
 
     const downloadLink = document.createElement("a");
     downloadLink.href = imageUrl;
-    downloadLink.download = "panchang.png";
+    downloadLink.download = `${filenameDate} - panchang.jpeg`;
     document.body.appendChild(downloadLink);
     downloadLink.click();
     document.body.removeChild(downloadLink);
@@ -274,10 +286,11 @@ export default function PanchangForm() {
   const handleGeneratePDF = async () => {
     const pdfBlob = await generatePDF(formData, boldFields);
     const pdfUrl = URL.createObjectURL(pdfBlob);
+    const filenameDate = getFormattedFilenameDate(formData.tarikh);
 
     const downloadLink = document.createElement("a");
     downloadLink.href = pdfUrl;
-    downloadLink.download = "panchang.pdf";
+    downloadLink.download = `${filenameDate} - panchang.pdf`;
     document.body.appendChild(downloadLink);
     downloadLink.click();
     document.body.removeChild(downloadLink);

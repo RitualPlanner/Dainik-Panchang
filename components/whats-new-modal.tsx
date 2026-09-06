@@ -33,8 +33,8 @@ export function WhatsNewModal({ open, onOpenChange }: WhatsNewModalProps) {
   // Content localized for Gujarati, Hindi, and English
   const content = {
     title: {
-      gu: `નવું શું છે v${pkg.version}?`,
-      hi: `नया क्या है v${pkg.version}?`,
+      gu: `નવું શું છે v${pkg.version} માં?`,
+      hi: `नया क्या है v${pkg.version} में?`,
       en: `What's New in v${pkg.version}?`,
     },
     subtitle: {

@@ -130,12 +130,13 @@ export const generateImage = async (
   y += 30;
 
   // Add separator - left-aligned
+  ctx.fillText("............................", 50, y);
   y += 40;
 
-  // Add din mahima - centered title
-  ctx.textAlign = "center";
-  ctx.font = "bold 24px Arial";
-  ctx.fillText("આજ નો દિન મહિમા", canvas.width / 2, y);
+  // Add din mahima - left-aligned title
+  ctx.textAlign = "left";
+  setFont("dinMahima");
+  ctx.fillText(`-  આજ નો દિન મહિમા :`, 50, y);
   y += 40;
 
   // Din mahima items - left-aligned
@@ -150,9 +151,13 @@ export const generateImage = async (
 
   // Convert canvas to blob
   return new Promise<Blob>((resolve) => {
-    canvas.toBlob((blob) => {
-      resolve(blob || new Blob());
-    }, "image/png");
+    canvas.toBlob(
+      (blob) => {
+        resolve(blob || new Blob());
+      },
+      "image/jpeg",
+      0.95
+    );
   });
 };
 

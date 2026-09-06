@@ -100,11 +100,15 @@ export async function generatePDF(formData: any, boldFields: string[]) {
   // Add rashi
   setFont("aajNiRashi");
   doc.text(`-  આજ ની રાશી :  ${formData.aajNiRashi}`, 30, y);
-  y += 20;
+  y += 15;
 
-  // Add din mahima - centered title
-  doc.setFont("helvetica", "bold");
-  doc.text("આજ નો દિન મહિમા", 105, y, { align: "center" });
+  // Add separator
+  doc.text("............................", 30, y);
+  y += 15;
+
+  // Add din mahima - left-aligned title
+  setFont("dinMahima");
+  doc.text("-  આજ નો દિન મહિમા :", 30, y);
   y += 15;
 
   // Din mahima items
