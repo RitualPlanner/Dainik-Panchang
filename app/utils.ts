@@ -1,5 +1,5 @@
 // Helper function to safely access localStorage
-const getLocalStorage = (key, defaultValue) => {
+const getLocalStorage = (key: string, defaultValue: string) => {
   if (typeof window !== "undefined") {
     return localStorage.getItem(key) || defaultValue;
   }
@@ -7,8 +7,10 @@ const getLocalStorage = (key, defaultValue) => {
 };
 
 export const generateImage = async (
-  formData: FormData,
-  boldFields: string[]
+  formData: any,
+  boldFields: string[],
+  _currentTheme?: any,
+  _selectedOverlay?: any
 ) => {
   // Check if we're in a browser environment
   if (typeof window === "undefined") {
@@ -155,7 +157,7 @@ export const generateImage = async (
 };
 
 export const generateFormattedText = (
-  formData: FormData,
+  formData: any,
   boldFields: string[]
 ): string => {
   let text = "";
@@ -408,7 +410,6 @@ const parseExtractedText = (text: string) => {
   }
 
   // Extract din mahima items - look for the section and all items
-  const dinMahimaStarted = false;
   const dinMahimaItems = [];
 
   // First find the din mahima header

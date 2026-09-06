@@ -6,14 +6,14 @@
   "description": "A comprehensive Panchang (Hindu lunar calendar) generator application built with Next.js. Create, customize, and share daily panchang details including tithi, nakshatra, yog, karan, sunrise/sunset times, and more. Features multilingual support (Gujarati, Hindi, English), QR code generation, PDF export, image upload for data extraction, and responsive design for all devices.",
   "scripts": {
     "build": "next build",
-    "dev": "next dev",
+    "dev": "node dev-server.mjs",
     "format": "prettier --write --cache --cache-location .cache/prettier \"**/*.{js,ts,tsx,jsx,cts,mts,json,md,yml,yaml}\"",
     "format:check": "prettier --check --cache --cache-location .cache/prettier \"**/*.{js,ts,tsx,jsx,cts,mts,json,md,yml,yaml}\"",
-    "lint": "eslint . --fix",
+    "lint": "eslint",
     "lint:check": "eslint .",
     "lint:staged": "lint-staged",
     "prepare": "husky",
-    "start": "next start"
+    "start": "node dev-server.mjs start"
   },
   "commitlint": {
     "extends": [
@@ -98,6 +98,8 @@
     "@types/qrcode": "^1.5.5",
     "@types/react": "^18",
     "@types/react-dom": "^18",
+    "cross-env": "^7.0.3",
+    "dotenv": "^16.4.7",
     "eslint": "^9.39.5",
     "eslint-config-next": "^16.3.4",
     "eslint-config-prettier": "^10.1.8",

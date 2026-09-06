@@ -1,3 +1,5 @@
+import { env } from "@/lib/env";
+
 // This utility generates QR codes for sharing Panchang data
 
 export async function generateQRCode(
@@ -48,7 +50,7 @@ export function createShareableLink(
   const baseUrl =
     typeof window !== "undefined"
       ? `${window.location.origin}${window.location.pathname}`
-      : "https://yourdomain.com";
+      : env.NEXT_PUBLIC_APP_URL;
 
   return `${baseUrl}?share=${encodedData}`;
 }

@@ -11,7 +11,7 @@ import { Globe } from "lucide-react";
 import { useLanguage, type Language } from "../contexts/language-context";
 
 export function LanguageSwitcher() {
-  const { language, setLanguage, t } = useLanguage();
+  const { language, setLanguage } = useLanguage();
 
   const languages = [
     { code: "gu", name: "ગુજરાતી" },
@@ -22,13 +22,22 @@ export function LanguageSwitcher() {
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
-        <Button variant="outline" size="sm">
-          <Globe className="h-4 w-4 mr-2" />
-          {language === "gu"
-            ? "ગુજરાતી"
-            : language === "hi"
-              ? "हिंदी"
-              : "English"}
+        <Button
+          variant="outline"
+          size="sm"
+          className="h-8 sm:h-9 px-2 sm:px-3 text-xs sm:text-sm font-medium border-border/80"
+        >
+          <Globe className="h-3.5 w-3.5 sm:h-4 sm:w-4 mr-1 sm:mr-2 shrink-0 text-muted-foreground" />
+          <span className="hidden sm:inline">
+            {language === "gu"
+              ? "ગુજરાતી"
+              : language === "hi"
+                ? "हिंदी"
+                : "English"}
+          </span>
+          <span className="inline sm:hidden font-semibold uppercase text-xs">
+            {language}
+          </span>
         </Button>
       </DropdownMenuTrigger>
       <DropdownMenuContent align="end">

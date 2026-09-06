@@ -6,19 +6,14 @@ import { useState, useRef, useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Card } from "@/components/ui/card";
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import {
   Download,
   Copy,
   Upload,
   AlertCircle,
   FileText,
-  RefreshCw,
-  Settings,
-  Sun,
-  Moon,
+  MoreVertical,
 } from "lucide-react";
-import { useTheme } from "next-themes";
 import DynamicFields from "./dynamic-fields";
 import {
   generateImage,
@@ -30,16 +25,11 @@ import { getCurrentGujaratiDate } from "./utils/date-utils";
 import EditableText from "./EditableText";
 import { useLocalStorageWithExpiry } from "./hooks/useLocalStorageWithExpiry";
 import { CalendarPicker } from "./components/calendar-picker";
-import { ThemeSelector, type ThemeOption } from "./components/theme-selector";
+import { type ThemeOption } from "./components/theme-selector";
 import { ShareOptions } from "./components/share-options";
-import {
-  ImageOverlaySelector,
-  type OverlayOption,
-} from "./components/image-overlay-selector";
-import { QRCodeGenerator } from "./components/qr-code-generator";
+import { type OverlayOption } from "./components/image-overlay-selector";
 import { LanguageSwitcher } from "./components/language-switcher";
 import { useLanguage } from "./contexts/language-context";
-import { fetchPanchangData } from "./services/panchang-api";
 import { useScreenSize, getResponsiveFontSize } from "./utils/responsive-utils";
 import {
   DropdownMenu,
@@ -54,6 +44,11 @@ import {
   TooltipTrigger,
 } from "@/components/ui/tooltip";
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
+import { Badge } from "@/components/ui/badge";
+import { env } from "@/lib/env";
+import { ThemeToggle } from "@/components/theme-toggle";
+import { toast } from "sonner";
+import pkg from "@/package.json";
 
 type FormData = {
   tithi: string;
@@ -84,13 +79,6 @@ export default function PanchangForm() {
   // Add this after the component declaration
   const { t, language } = useLanguage();
   const screenSize = useScreenSize();
-  const { theme, setTheme } = useTheme();
-  const [mounted, setMounted] = useState(false);
-
-  // Sync mounted state on client mount
-  useEffect(() => {
-    setMounted(true);
-  }, []);
 
   // Use localStorage with expiry for each field
   const [tithi, setTithi] = useLocalStorageWithExpiry(
@@ -131,7 +119,7 @@ export default function PanchangForm() {
   );
 
   // Add these new state variables after the existing ones
-  const [selectedOverlay, setSelectedOverlay] = useState<OverlayOption>({
+  const [selectedOverlay] = useState<OverlayOption>({
     id: "none",
     name: {
       gu: "કોઈ નહીં",
@@ -142,10 +130,6 @@ export default function PanchangForm() {
     imageUrl: "",
     type: "none",
   });
-  const [isFetchingData, setIsFetchingData] = useState(false);
-  const [activeMainTab, setActiveMainTab] = useState("form");
-  const [showNotification, setShowNotification] = useState(false);
-  const [notificationMessage, setNotificationMessage] = useState("");
 
   // Combine all fields into formData object
   const formData: FormData = {
@@ -219,7 +203,11 @@ export default function PanchangForm() {
           if (decodedData.formData) {
             Object.entries(decodedData.formData).forEach(([key, value]) => {
               if (key in fieldSetters) {
-                fieldSetters[key as keyof typeof fieldSetters](value);
+                (
+                  fieldSetters[key as keyof typeof fieldSetters] as (
+                    val: any
+                  ) => void
+                )(value);
               }
             });
           }
@@ -229,29 +217,29 @@ export default function PanchangForm() {
             setBoldFields(decodedData.boldFields);
           }
 
-          // Show notification
-          setNotificationMessage(
+          // Show toast notification
+          toast.success(
             language === "gu"
               ? "શેર કરેલ પંચાંગ સફળતાપૂર્વક લોડ થયું"
               : language === "hi"
                 ? "शेयर किया गया पंचांग सफलतापूर्वक लोड हुआ"
                 : "Shared panchang loaded successfully"
           );
-          setShowNotification(true);
-          setTimeout(() => setShowNotification(false), 3000);
         } catch (error) {
           console.error("Error parsing shared data:", error);
         }
       }
     }
-  }, []);
+  }, [language]);
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
 
     // Use the appropriate setter function from our map
     if (name in fieldSetters) {
-      fieldSetters[name as keyof typeof fieldSetters](value);
+      (fieldSetters[name as keyof typeof fieldSetters] as (val: any) => void)(
+        value
+      );
     }
   };
 
@@ -271,16 +259,14 @@ export default function PanchangForm() {
     downloadLink.click();
     document.body.removeChild(downloadLink);
 
-    // Show notification
-    setNotificationMessage(
+    // Show toast notification
+    toast.success(
       language === "gu"
         ? "પંચાંગ ઇમેજ સફળતાપૂર્વક જનરેટ થઈ"
         : language === "hi"
-          ? "पंचांग इमेज सफलतापूर्वक ज��रेट हुई"
+          ? "पंचांग इमेज सफलतापूर्वक जनरेट हुई"
           : "Panchang image generated successfully"
     );
-    setShowNotification(true);
-    setTimeout(() => setShowNotification(false), 3000);
   };
 
   const handleGeneratePDF = async () => {
@@ -294,16 +280,14 @@ export default function PanchangForm() {
     downloadLink.click();
     document.body.removeChild(downloadLink);
 
-    // Show notification
-    setNotificationMessage(
+    // Show toast notification
+    toast.success(
       language === "gu"
         ? "પંચાંગ PDF સફળતાપૂર્વક જનરેટ થઈ"
         : language === "hi"
           ? "पंचांग PDF सफलतापूर्वक जनरेट हुई"
           : "Panchang PDF generated successfully"
     );
-    setShowNotification(true);
-    setTimeout(() => setShowNotification(false), 3000);
   };
 
   const handleCopy = async () => {
@@ -311,18 +295,17 @@ export default function PanchangForm() {
     try {
       await navigator.clipboard.writeText(formattedText);
 
-      // Show notification
-      setNotificationMessage(
+      // Show toast notification
+      toast.success(
         language === "gu"
           ? "પંચાંગ ટેક્સ્ટ ક્લિપબોર્ડ પર કોપી થઈ"
           : language === "hi"
-            ? "पंचांग टेक्स्ट क्लिपबोर्ड पर कॉपी हुआ"
+            ? "પંચાંગ ટેક્સ્ટ ક્લિપબોર્ડ પર કોપી હુઆ"
             : "Panchang text copied to clipboard"
       );
-      setShowNotification(true);
-      setTimeout(() => setShowNotification(false), 3000);
     } catch (err) {
       console.error("Failed to copy text:", err);
+      toast.error("Failed to copy text");
     }
   };
 
@@ -364,26 +347,33 @@ export default function PanchangForm() {
       // Update each field with its corresponding extracted data
       Object.entries(extractedData).forEach(([key, value]) => {
         if (key in fieldSetters) {
-          fieldSetters[key as keyof typeof fieldSetters](value);
+          (
+            fieldSetters[key as keyof typeof fieldSetters] as (val: any) => void
+          )(value);
         }
       });
 
       // Clean up the URL
       URL.revokeObjectURL(imageUrl);
 
-      // Show notification
-      setNotificationMessage(
+      // Show toast notification
+      toast.success(
         language === "gu"
           ? "ઇમેજમાંથી ડેટા સફળતાપૂર્વક એક્સટ્રેક્ટ થયો"
           : language === "hi"
-            ? "इमेज से डेटा सफलतापूर्वक एक्सट्रैक्ट हुआ"
+            ? "ઇમેજ સે ડેટા સફળતાપૂર્વક એક્સટ્રેક્ટ હુઆ"
             : "Data successfully extracted from image"
       );
-      setShowNotification(true);
-      setTimeout(() => setShowNotification(false), 3000);
     } catch (error) {
       console.error("Error extracting data from image:", error);
       setExtractionError(t("extractionError"));
+      toast.error(
+        language === "gu"
+          ? "ઇમેજ પ્રોસેસ કરવામાં નિષ્ફળ"
+          : language === "hi"
+            ? "ઇમેજ પ્રોસેસ કરને મેં વિફલ"
+            : "Failed to process image"
+      );
     } finally {
       setIsLoading(false);
       // Reset the file input
@@ -399,41 +389,79 @@ export default function PanchangForm() {
 
   // Replace the existing Card component with this updated version
   return (
-    <div className="min-h-screen bg-background py-8 px-4 md:px-8 flex items-center justify-center transition-colors duration-300">
-      <Card className="relative max-w-7xl w-full mx-auto p-6 md:p-10 space-y-6 md:space-y-8 bg-card border border-border text-card-foreground shadow-xl rounded-2xl transition-colors duration-300">
+    <div className="min-h-screen bg-background py-4 sm:py-8 px-2 sm:px-4 md:px-8 flex items-center justify-center transition-colors duration-300">
+      <Card className="relative max-w-7xl w-full mx-auto p-4 sm:p-6 md:p-10 space-y-6 md:space-y-8 bg-card border border-border text-card-foreground shadow-xl rounded-2xl transition-colors duration-300">
         <div className="flex flex-col border-b border-border pb-6 text-center">
-          <div className="flex items-center justify-between w-full mb-4 sm:mb-2">
-            <img
-              src="https://res.cloudinary.com/db6qh4jsv/image/upload/v1788498372/dainik_panchang_vhzo24.png"
-              alt="Dainik Panchang Logo"
-              className="h-10 w-10 sm:h-12 sm:w-12 md:h-16 md:w-16 object-contain hover:scale-105 transition-all duration-200 bg-background p-1 rounded-xl border border-border shadow-xs shrink-0"
-            />
-            <div className="flex items-center gap-1.5 sm:gap-2 bg-muted/60 backdrop-blur-sm p-1 sm:p-1.5 rounded-xl border border-border shadow-xs shrink-0">
-              {mounted && (
-                <>
-                  <Button
-                    variant="ghost"
-                    size="icon"
-                    className="h-8 w-8 rounded-lg text-muted-foreground hover:text-foreground hover:bg-accent transition-colors"
-                    onClick={() =>
-                      setTheme(theme === "dark" ? "light" : "dark")
-                    }
-                    title={
-                      theme === "dark"
-                        ? "Switch to Light Mode"
-                        : "Switch to Dark Mode"
-                    }
-                  >
-                    {theme === "dark" ? (
-                      <Sun className="h-4 w-4 text-amber-500" />
-                    ) : (
-                      <Moon className="h-4 w-4 text-foreground" />
-                    )}
-                  </Button>
-                  <div className="h-4 w-px bg-border" />
-                </>
-              )}
+          <div className="flex items-center justify-between w-full mb-4 sm:mb-2 gap-2">
+            {/* Left: Logo + Brand Title */}
+            <div className="flex items-center gap-2 sm:gap-3 min-w-0">
+              <img
+                src={env.NEXT_PUBLIC_LOGO_URL}
+                alt="Dainik Panchang Logo"
+                className="h-10 w-10 sm:h-12 sm:w-12 md:h-14 md:w-14 object-contain hover:scale-105 transition-all duration-200 bg-background p-1 rounded-xl border border-border shadow-xs shrink-0"
+              />
+              <div className="flex items-center gap-2">
+                <span className="text-lg sm:text-xl md:text-2xl font-bold tracking-wider text-foreground select-none whitespace-nowrap">
+                  Dainik
+                  <span className="bg-gradient-to-r from-orange-500 via-orange-400 to-amber-400 bg-clip-text text-transparent">
+                    Panchang
+                  </span>
+                </span>
+                {/* Desktop Version Badge */}
+                <Badge
+                  variant="outline"
+                  className="hidden sm:inline-flex text-xs font-mono font-medium px-2 py-0.5 rounded-full border-amber-500/30 dark:border-amber-400/30 bg-amber-500/10 text-amber-700 dark:text-amber-300 shrink-0 select-none"
+                >
+                  v{pkg.version}
+                </Badge>
+              </div>
+            </div>
+
+            {/* Desktop Controls (Inline Theme & Language) */}
+            <div className="hidden sm:flex items-center gap-1.5 sm:gap-2 bg-muted/60 backdrop-blur-sm p-1 sm:p-1.5 rounded-xl border border-border shadow-xs shrink-0">
+              <ThemeToggle />
+              <div className="h-4 w-px bg-border" />
               <LanguageSwitcher />
+            </div>
+
+            {/* Mobile Controls: Version Badge First + 3 Vertical Dots Menu */}
+            <div className="flex sm:hidden items-center gap-1.5 shrink-0">
+              <Badge
+                variant="outline"
+                className="text-[10px] font-mono font-medium px-1.5 py-0.5 rounded-full border-amber-500/30 dark:border-amber-400/30 bg-amber-500/10 text-amber-700 dark:text-amber-300 shrink-0 select-none"
+              >
+                v{pkg.version}
+              </Badge>
+              <DropdownMenu>
+                <DropdownMenuTrigger asChild>
+                  <Button
+                    variant="outline"
+                    size="icon"
+                    className="h-8 w-8 rounded-xl border-border bg-muted/60 backdrop-blur-sm hover:bg-accent text-foreground cursor-pointer"
+                  >
+                    <MoreVertical className="h-4 w-4" />
+                    <span className="sr-only">Menu</span>
+                  </Button>
+                </DropdownMenuTrigger>
+                <DropdownMenuContent
+                  align="end"
+                  className="w-48 p-2 space-y-2 rounded-xl border-border bg-card shadow-xl"
+                >
+                  <div className="flex items-center justify-between px-2 py-1">
+                    <span className="text-xs font-semibold text-muted-foreground uppercase tracking-wider">
+                      Theme
+                    </span>
+                    <ThemeToggle />
+                  </div>
+                  <div className="h-px bg-border my-1" />
+                  <div className="flex items-center justify-between px-2 py-1">
+                    <span className="text-xs font-semibold text-muted-foreground uppercase tracking-wider">
+                      Language
+                    </span>
+                    <LanguageSwitcher />
+                  </div>
+                </DropdownMenuContent>
+              </DropdownMenu>
             </div>
           </div>
           <div className="space-y-3 w-full flex flex-col items-center">
@@ -660,13 +688,6 @@ export default function PanchangForm() {
           </div>
         </div>
       </Card>
-
-      {/* Floating notification */}
-      {showNotification && (
-        <div className="fixed top-5 left-1/2 -translate-x-1/2 z-50 bg-emerald-600 text-white px-5 py-2.5 rounded-xl shadow-lg border border-emerald-500/20 font-medium text-sm transition-all duration-300 animate-in fade-in slide-in-from-top-4">
-          {notificationMessage}
-        </div>
-      )}
     </div>
   );
 }
