@@ -721,23 +721,23 @@ export default function PanchangForm() {
         <AlertDialogContent
           onPointerDownOutside={(e) => e.preventDefault()}
           onEscapeKeyDown={(e) => e.preventDefault()}
-          className="bg-card border border-border text-foreground max-w-md rounded-2xl shadow-2xl p-6 transition-colors duration-300"
+          className="bg-card border border-border text-foreground max-w-[92vw] sm:max-w-lg md:max-w-xl rounded-3xl shadow-2xl p-7 md:p-8 transition-colors duration-300"
         >
-          <AlertDialogHeader>
-            <AlertDialogTitle className="text-lg font-bold text-foreground flex items-center gap-2">
-              <ExternalLink className="h-5 w-5 text-orange-500 shrink-0" />
+          <AlertDialogHeader className="space-y-3">
+            <AlertDialogTitle className="text-xl md:text-2xl font-bold text-foreground flex items-center gap-2.5">
+              <ExternalLink className="h-6 w-6 text-orange-500 shrink-0" />
               બાહ્ય વેબસાઇટ પર રીડાયરેક્ટ
             </AlertDialogTitle>
-            <AlertDialogDescription className="text-sm text-muted-foreground mt-2 leading-relaxed">
+            <AlertDialogDescription className="text-base md:text-lg text-muted-foreground leading-relaxed">
               આ લિંક તમને બાહ્ય વેબસાઇટ (GitHub) પર લઈ જશે જ્યાં તમે નવીનતમ
               સંસ્કરણ (v{pkg.version}) ની રિલીઝ નોટ્સ વાંચી શકશો. શું તમે આગળ
               વધવા માગો છો?
             </AlertDialogDescription>
           </AlertDialogHeader>
-          <AlertDialogFooter className="mt-6 flex flex-col-reverse sm:flex-row gap-2 sm:gap-3 sm:justify-end">
+          <AlertDialogFooter className="mt-8 flex flex-col-reverse sm:flex-row gap-3 sm:justify-end">
             <AlertDialogCancel
               onClick={() => setShowReleaseNotesAlert(false)}
-              className="rounded-xl border border-border bg-background hover:bg-muted text-foreground hover:text-foreground cursor-pointer font-medium"
+              className="rounded-xl border border-border bg-background hover:bg-muted text-foreground hover:text-foreground cursor-pointer font-medium px-5 py-2.5 text-base"
             >
               રદ કરો
             </AlertDialogCancel>
@@ -750,7 +750,7 @@ export default function PanchangForm() {
                   "noopener,noreferrer"
                 );
               }}
-              className="rounded-xl bg-orange-500 hover:bg-orange-600 text-white dark:bg-orange-600 dark:hover:bg-orange-500 border-none cursor-pointer font-medium shadow-sm transition-colors"
+              className="rounded-xl bg-orange-500 hover:bg-orange-600 text-white dark:bg-orange-600 dark:hover:bg-orange-500 border-none cursor-pointer font-medium shadow-sm transition-colors px-5 py-2.5 text-base"
             >
               હા, આગળ વધો
             </AlertDialogAction>
