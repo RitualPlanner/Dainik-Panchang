@@ -3,10 +3,11 @@
 import type React from "react";
 import {
   Sparkles,
-  Moon,
+  RotateCcw,
+  AlertTriangle,
+  Compass,
   Smartphone,
-  Type,
-  Zap,
+  FileText,
   ExternalLink,
   Check,
 } from "lucide-react";
@@ -44,16 +45,61 @@ export function WhatsNewModal({ open, onOpenChange }: WhatsNewModalProps) {
     },
     features: [
       {
-        icon: Moon,
+        icon: FileText,
         title: {
-          gu: "ડાર્ક મોડ અને થિમ સિલેક્ટર",
-          hi: "डार्क मोड और थीम सेलेक्टर",
-          en: "Dark Mode & Color Themes",
+          gu: "પરફેક્ટ ઈમેજ અને PDF એક્સપોર્ટ",
+          hi: "परफेक्ट इमेज और PDF एक्सपोर्ट",
+          en: "Fixed Image & PDF Export",
         },
         description: {
-          gu: "લાઇટ અને ડાર્ક મોડ વચ્ચે સરળતાથી સ્વિચ કરો. હવે પંચાંગ જનરેટર રાત્રે પણ ઉપયોગમાં અત્યંત આરામદાયક છે.",
-          hi: "लाइट और डार्क मोड के बीच आसानी से स्विच करें। अब रात में भी पंचांग बनाना और देखना सुविधाजनक है।",
-          en: "Seamlessly switch between Light and Dark modes with custom tailored color palettes.",
+          gu: "ઇમેજ અને PDF માં વધારાની લાઇન દૂર કરવામાં આવી છે, દિન મહિમા સ્થાન અને તિથિ લેઆઉટ સ્પેસિંગ સુધારવામાં આવ્યું છે.",
+          hi: "इमेज और PDF में अतिरिक्त लाइन हटाई गई है, दिन महिमा स्थान और तिथि लेआउट स्पेसिंग को सुधारा गया है।",
+          en: "Removed extra top lines, fixed Din Mahima label placement, and perfected Tithi layout line spacing in Image & PDF exports.",
+        },
+        badgeColor:
+          "bg-orange-500/10 text-orange-600 dark:text-orange-400 border-orange-500/20",
+      },
+      {
+        icon: RotateCcw,
+        title: {
+          gu: "ઓટો-રીસેટ અને તાજા ઇનપુટ્સ",
+          hi: "ऑटो-रीसेट और नए इनपुट",
+          en: "Auto Reset & Clean Inputs",
+        },
+        description: {
+          gu: "મધ્યરાત્રિ ૧૨:૦૦ વાગ્યે ઓટો-રીસેટ અને પેજ રીફ્રેશ પર ઇનપુટ ડેટા સુરક્ષિત રીતે ક્લીયર થાય છે.",
+          hi: "मध्यरात्रि 12:00 बजे ऑटो-रीसेट और पेज रिफ्रेश पर इनपुट डेटा सुरक्षित रूप से साफ होता है।",
+          en: "Automatic midnight reset and clean form inputs on page reload.",
+        },
+        badgeColor:
+          "bg-orange-500/10 text-orange-600 dark:text-orange-400 border-orange-500/20",
+      },
+      {
+        icon: AlertTriangle,
+        title: {
+          gu: "રીફ્રેશ ચેતવણી ડાયલોગ મોડલ",
+          hi: "रिफ्रेश चेतावनी संवाद मॉडल",
+          en: "Page Refresh Alert Modal",
+        },
+        description: {
+          gu: "ડેટા લખેલો હોય ત્યારે અકસ્માતે રીફ્રેશ થતાં અટકાવતી સ્માર્ટ કન્ફર્મેશન ચેતવણી ડાયલોગ.",
+          hi: "डेटा लिखे होने पर गलती से रिफ्रेश होने से रोकने वाली स्मार्ट पुष्टि चेतावनी संवाद.",
+          en: "Smart confirmation warning preventing accidental data loss on page refresh.",
+        },
+        badgeColor:
+          "bg-amber-500/10 text-amber-600 dark:text-amber-400 border-amber-500/20",
+      },
+      {
+        icon: Compass,
+        title: {
+          gu: "સિસ્ટમ એરર અને લોડિંગ પેજ",
+          hi: "सिस्टम त्रुटि और लोडिंग पेज",
+          en: "System Fallback & Error Pages",
+        },
+        description: {
+          gu: "૪૦૪ નોટ ફાઉન્ડ, ૫૦૦ સિસ્ટમ એરર બાઉન્ડ્રી અને સ્મૂધ લોડિંગ સ્ક્રીન સપોર્ટ.",
+          hi: "404 नॉट फाउंड, 500 सिस्टम त्रुटि और स्मूथ लोडिंग स्क्रीन सपोर्ट।",
+          en: "Dedicated 404 Not Found, 500 Error boundary, and smooth loading UI pages.",
         },
         badgeColor:
           "bg-orange-500/10 text-orange-600 dark:text-orange-400 border-orange-500/20",
@@ -61,44 +107,14 @@ export function WhatsNewModal({ open, onOpenChange }: WhatsNewModalProps) {
       {
         icon: Smartphone,
         title: {
-          gu: "મોબાઇલ ફ્રેન્ડલી ૩-ડોટ મેનૂ",
-          hi: "मोबाइल अनुकूल 3-डॉट मेनू",
-          en: "Mobile-Friendly Quick Menu",
+          gu: "યુનિફાઇડ રીસેટ બટન ડિઝાઈન",
+          hi: "यूनिफाइड रीसेट बटन डिजाइन",
+          en: "Unified Reset Button Design",
         },
         description: {
-          gu: "મોબાઇલ સ્ક્રીન પર થીમ અને ભાષા ઝડપથી બદલવા માટે નવું સરળ અને સુંદર ૩-ડોટ ક્વિક મેનૂ.",
-          hi: "मोबाइल स्क्रीन पर थीम और भाषा तेजी से बदलने के लिए नया सुंदर 3-डॉट क्विक मेनू।",
-          en: "Clean 3-dots mobile menu for quick theme and language controls on smartphones.",
-        },
-        badgeColor:
-          "bg-amber-500/10 text-amber-600 dark:text-amber-400 border-amber-500/20",
-      },
-      {
-        icon: Type,
-        title: {
-          gu: "બોલ્ડ ટેક્સ્ટ હાઇલાઇટ્સ",
-          hi: "बोल्ड टेक्स्ट हाइलाइट्स",
-          en: "Bold Text Options",
-        },
-        description: {
-          gu: "દિન મહિમા અને પંચાંગ વિગતોમાં મહત્વપૂર્ણ પોઇન્ટ્સને બોલ્ડ કરીને વધુ સ્પષ્ટ દર્શાવો.",
-          hi: "दिन महिमा और पंचांग विवरण में महत्वपूर्ण बिंदुओं को बोल्ड करके अधिक स्पष्ट दर्शाएं।",
-          en: "Highlight important Panchang points and Din Mahima details with bold formatting.",
-        },
-        badgeColor:
-          "bg-orange-500/10 text-orange-600 dark:text-orange-400 border-orange-500/20",
-      },
-      {
-        icon: Zap,
-        title: {
-          gu: "ઝડપી ઇમેજ અને PDF એક્સપોર્ટ",
-          hi: "त्वरित इमेज और PDF एक्सपोर्ट",
-          en: "Enhanced Image & PDF Export",
-        },
-        description: {
-          gu: "પંચાંગ કાર્ડ જનરેટ કરવા અને PDF ડાઉનલોડ કરવા માટે વધુ ઝડપી અને પ્રતિસાદી કાર્યક્ષમતા.",
-          hi: "पंचांग कार्ड बनाने और PDF डाउनलोड करने के लिए अधिक तीव्र और सटीक प्रदर्शन।",
-          en: "Faster image generation and PDF download with fully responsive layouts on all screens.",
+          gu: "તમામ ડેસ્કટોપ, લેપટોપ અને ટેબ્લેટ સ્ક્રીન પર 'ડેટા રીસેટ કરો' ટેક્સ્ટ અને આઇકોન બટન.",
+          hi: "सभी डेस्कटॉप, लैपटॉप और टैबलेट स्क्रीन पर 'डेटा रीसेट करें' टेक्स्ट और आइकन बटन।",
+          en: "Unified 'Reset Data' text and icon button across all screen sizes.",
         },
         badgeColor:
           "bg-amber-500/10 text-amber-600 dark:text-amber-400 border-amber-500/20",

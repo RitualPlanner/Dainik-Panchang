@@ -1,6 +1,6 @@
 # Dainik-Panchang 📅
 
-![Version](https://img.shields.io/badge/version-1.2.0-orange.svg)
+![Version](https://img.shields.io/badge/version-1.3.0-orange.svg)
 
 A comprehensive and user-friendly Panchang (Hindu lunar calendar) generator application built with modern web technologies. Generate, customize, and share daily panchang details with ease.
 
