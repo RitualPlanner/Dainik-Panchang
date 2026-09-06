@@ -4,6 +4,7 @@ import "react-day-picker/dist/style.css";
 import { LanguageProvider } from "./contexts/language-context";
 import { ThemeProvider } from "@/components/theme-provider";
 import { Poppins, Cinzel, Inter } from "next/font/google";
+import { env } from "@/lib/env";
 
 const poppins = Poppins({
   subsets: ["latin"],
@@ -21,6 +22,8 @@ const cinzel = Cinzel({
   weight: ["600", "800"],
   variable: "--font-cinzel",
 });
+
+import { Toaster } from "@/components/ui/sonner";
 
 export default function RootLayout({
   children,
@@ -40,6 +43,7 @@ export default function RootLayout({
           enableSystem={false}
         >
           <LanguageProvider>{children}</LanguageProvider>
+          <Toaster position="top-center" richColors />
         </ThemeProvider>
       </body>
     </html>
@@ -51,11 +55,9 @@ export const metadata = {
   description:
     "Create, customize, and share daily panchang details including tithi, nakshatra, yog, karan, sunrise/sunset times, and more. Features multilingual support, QR code generation, and PDF export.",
   icons: {
-    icon: "https://res.cloudinary.com/db6qh4jsv/image/upload/v1788498372/dainik_panchang_vhzo24.png",
-    shortcut:
-      "https://res.cloudinary.com/db6qh4jsv/image/upload/v1788498372/dainik_panchang_vhzo24.png",
-    apple:
-      "https://res.cloudinary.com/db6qh4jsv/image/upload/v1788498372/dainik_panchang_vhzo24.png",
+    icon: env.NEXT_PUBLIC_LOGO_URL,
+    shortcut: env.NEXT_PUBLIC_LOGO_URL,
+    apple: env.NEXT_PUBLIC_LOGO_URL,
   },
   generator: "Dainik-Panchang",
 };

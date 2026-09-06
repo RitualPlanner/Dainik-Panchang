@@ -6,19 +6,7 @@ import { useState, useRef, useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Card } from "@/components/ui/card";
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import {
-  Download,
-  Copy,
-  Upload,
-  AlertCircle,
-  FileText,
-  RefreshCw,
-  Settings,
-  Sun,
-  Moon,
-} from "lucide-react";
-import { useTheme } from "next-themes";
+import { Download, Copy, Upload, AlertCircle, FileText } from "lucide-react";
 import DynamicFields from "./dynamic-fields";
 import {
   generateImage,
@@ -30,16 +18,11 @@ import { getCurrentGujaratiDate } from "./utils/date-utils";
 import EditableText from "./EditableText";
 import { useLocalStorageWithExpiry } from "./hooks/useLocalStorageWithExpiry";
 import { CalendarPicker } from "./components/calendar-picker";
-import { ThemeSelector, type ThemeOption } from "./components/theme-selector";
+import { type ThemeOption } from "./components/theme-selector";
 import { ShareOptions } from "./components/share-options";
-import {
-  ImageOverlaySelector,
-  type OverlayOption,
-} from "./components/image-overlay-selector";
-import { QRCodeGenerator } from "./components/qr-code-generator";
+import { type OverlayOption } from "./components/image-overlay-selector";
 import { LanguageSwitcher } from "./components/language-switcher";
 import { useLanguage } from "./contexts/language-context";
-import { fetchPanchangData } from "./services/panchang-api";
 import { useScreenSize, getResponsiveFontSize } from "./utils/responsive-utils";
 import {
   DropdownMenu,
@@ -54,6 +37,8 @@ import {
   TooltipTrigger,
 } from "@/components/ui/tooltip";
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
+import { env } from "@/lib/env";
+import { ThemeToggle } from "@/components/theme-toggle";
 
 type FormData = {
   tithi: string;
@@ -84,13 +69,6 @@ export default function PanchangForm() {
   // Add this after the component declaration
   const { t, language } = useLanguage();
   const screenSize = useScreenSize();
-  const { theme, setTheme } = useTheme();
-  const [mounted, setMounted] = useState(false);
-
-  // Sync mounted state on client mount
-  useEffect(() => {
-    setMounted(true);
-  }, []);
 
   // Use localStorage with expiry for each field
   const [tithi, setTithi] = useLocalStorageWithExpiry(
@@ -219,7 +197,11 @@ export default function PanchangForm() {
           if (decodedData.formData) {
             Object.entries(decodedData.formData).forEach(([key, value]) => {
               if (key in fieldSetters) {
-                fieldSetters[key as keyof typeof fieldSetters](value);
+                (
+                  fieldSetters[key as keyof typeof fieldSetters] as (
+                    val: any
+                  ) => void
+                )(value);
               }
             });
           }
@@ -244,14 +226,16 @@ export default function PanchangForm() {
         }
       }
     }
-  }, []);
+  }, [language]);
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
 
     // Use the appropriate setter function from our map
     if (name in fieldSetters) {
-      fieldSetters[name as keyof typeof fieldSetters](value);
+      (fieldSetters[name as keyof typeof fieldSetters] as (val: any) => void)(
+        value
+      );
     }
   };
 
@@ -404,35 +388,13 @@ export default function PanchangForm() {
         <div className="flex flex-col border-b border-border pb-6 text-center">
           <div className="flex items-center justify-between w-full mb-4 sm:mb-2">
             <img
-              src="https://res.cloudinary.com/db6qh4jsv/image/upload/v1788498372/dainik_panchang_vhzo24.png"
+              src={env.NEXT_PUBLIC_LOGO_URL}
               alt="Dainik Panchang Logo"
               className="h-10 w-10 sm:h-12 sm:w-12 md:h-16 md:w-16 object-contain hover:scale-105 transition-all duration-200 bg-background p-1 rounded-xl border border-border shadow-xs shrink-0"
             />
             <div className="flex items-center gap-1.5 sm:gap-2 bg-muted/60 backdrop-blur-sm p-1 sm:p-1.5 rounded-xl border border-border shadow-xs shrink-0">
-              {mounted && (
-                <>
-                  <Button
-                    variant="ghost"
-                    size="icon"
-                    className="h-8 w-8 rounded-lg text-muted-foreground hover:text-foreground hover:bg-accent transition-colors"
-                    onClick={() =>
-                      setTheme(theme === "dark" ? "light" : "dark")
-                    }
-                    title={
-                      theme === "dark"
-                        ? "Switch to Light Mode"
-                        : "Switch to Dark Mode"
-                    }
-                  >
-                    {theme === "dark" ? (
-                      <Sun className="h-4 w-4 text-amber-500" />
-                    ) : (
-                      <Moon className="h-4 w-4 text-foreground" />
-                    )}
-                  </Button>
-                  <div className="h-4 w-px bg-border" />
-                </>
-              )}
+              <ThemeToggle />
+              <div className="h-4 w-px bg-border" />
               <LanguageSwitcher />
             </div>
           </div>
