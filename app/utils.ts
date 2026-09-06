@@ -63,15 +63,10 @@ export const generateImage = async (
   );
   ctx.fillText(line2, canvas.width / 2, 210);
 
-  // Rest of the function remains the same
-  // Add separator - left-aligned
-  ctx.textAlign = "left";
-  ctx.fillText("............................", 50, 240);
-
   // Add form data
   ctx.font = "20px Arial";
   ctx.textAlign = "left";
-  let y = 270;
+  let y = 260;
 
   // Function to set font based on boldFields
   const setFont = (field: string) => {
@@ -177,12 +172,10 @@ export const generateFormattedText = (
   // Add header - centered
   text += bold("|| શ્રી ગણેશાય નમઃ ||") + "\n\n";
   text += bold("દૈનિક પંચાંગ") + "\n";
-  text += "............................\n";
   text += line1;
   text += "\n";
   text += line2;
-  text += "\n";
-  text += "............................\n";
+  text += "\n\n";
 
   // Rest of the function remains the same
   // Add tithi and date
