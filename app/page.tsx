@@ -521,19 +521,24 @@ export default function PanchangForm() {
               <div className="h-4 w-px bg-border" />
               <Button
                 variant="ghost"
-                size="icon"
                 onClick={() => setShowRefreshConfirmModal(true)}
                 title={
                   language === "gu"
-                    ? "રીસેટ ડેટા"
+                    ? "ડેટા રીસેટ કરો"
                     : language === "hi"
-                      ? "रीसेट डेटा"
+                      ? "डेटा रीसेट करें"
                       : "Reset Data"
                 }
-                className="h-8 w-8 rounded-lg hover:bg-accent text-foreground cursor-pointer"
+                className="h-8 px-2.5 sm:px-3 rounded-lg hover:bg-accent text-foreground cursor-pointer text-xs font-medium flex items-center justify-between gap-2 transition-colors"
               >
-                <RotateCcw className="h-4 w-4 text-orange-500" />
-                <span className="sr-only">Reset</span>
+                <span>
+                  {language === "gu"
+                    ? "ડેટા રીસેટ કરો"
+                    : language === "hi"
+                      ? "डेटा रीसेट करें"
+                      : "Reset Data"}
+                </span>
+                <RotateCcw className="h-3.5 w-3.5 text-orange-500 shrink-0" />
               </Button>
             </div>
 
