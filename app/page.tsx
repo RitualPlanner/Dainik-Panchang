@@ -6,7 +6,14 @@ import { useState, useRef, useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Card } from "@/components/ui/card";
-import { Download, Copy, Upload, AlertCircle, FileText } from "lucide-react";
+import {
+  Download,
+  Copy,
+  Upload,
+  AlertCircle,
+  FileText,
+  MoreVertical,
+} from "lucide-react";
 import DynamicFields from "./dynamic-fields";
 import {
   generateImage,
@@ -385,32 +392,76 @@ export default function PanchangForm() {
     <div className="min-h-screen bg-background py-4 sm:py-8 px-2 sm:px-4 md:px-8 flex items-center justify-center transition-colors duration-300">
       <Card className="relative max-w-7xl w-full mx-auto p-4 sm:p-6 md:p-10 space-y-6 md:space-y-8 bg-card border border-border text-card-foreground shadow-xl rounded-2xl transition-colors duration-300">
         <div className="flex flex-col border-b border-border pb-6 text-center">
-          <div className="flex items-center justify-between w-full mb-4 sm:mb-2 gap-2 sm:gap-4 overflow-hidden">
-            <div className="flex items-center gap-2 sm:gap-3 min-w-0 shrink">
+          <div className="flex items-center justify-between w-full mb-4 sm:mb-2 gap-2">
+            {/* Left: Logo + Brand Title */}
+            <div className="flex items-center gap-2 sm:gap-3 min-w-0">
               <img
                 src={env.NEXT_PUBLIC_LOGO_URL}
                 alt="Dainik Panchang Logo"
-                className="h-9 w-9 sm:h-12 sm:w-12 md:h-14 md:w-14 object-contain hover:scale-105 transition-all duration-200 bg-background p-1 rounded-xl border border-border shadow-xs shrink-0"
+                className="h-10 w-10 sm:h-12 sm:w-12 md:h-14 md:w-14 object-contain hover:scale-105 transition-all duration-200 bg-background p-1 rounded-xl border border-border shadow-xs shrink-0"
               />
-              <div className="flex items-center gap-1.5 sm:gap-2 min-w-0">
-                <span className="text-base sm:text-xl md:text-2xl font-bold tracking-tight sm:tracking-wider text-foreground select-none truncate">
+              <div className="flex items-center gap-2">
+                <span className="text-lg sm:text-xl md:text-2xl font-bold tracking-wider text-foreground select-none whitespace-nowrap">
                   Dainik
                   <span className="bg-gradient-to-r from-orange-500 via-orange-400 to-amber-400 bg-clip-text text-transparent">
                     Panchang
                   </span>
                 </span>
+                {/* Desktop Version Badge */}
                 <Badge
                   variant="outline"
-                  className="text-[10px] sm:text-xs font-mono font-medium px-1.5 sm:px-2 py-0 sm:py-0.5 rounded-full border-amber-500/30 dark:border-amber-400/30 bg-amber-500/10 text-amber-700 dark:text-amber-300 shrink-0 select-none"
+                  className="hidden sm:inline-flex text-xs font-mono font-medium px-2 py-0.5 rounded-full border-amber-500/30 dark:border-amber-400/30 bg-amber-500/10 text-amber-700 dark:text-amber-300 shrink-0 select-none"
                 >
                   v{pkg.version}
                 </Badge>
               </div>
             </div>
-            <div className="flex items-center gap-1 sm:gap-2 bg-muted/60 backdrop-blur-sm p-1 sm:p-1.5 rounded-xl border border-border shadow-xs shrink-0">
+
+            {/* Desktop Controls (Inline Theme & Language) */}
+            <div className="hidden sm:flex items-center gap-1.5 sm:gap-2 bg-muted/60 backdrop-blur-sm p-1 sm:p-1.5 rounded-xl border border-border shadow-xs shrink-0">
               <ThemeToggle />
               <div className="h-4 w-px bg-border" />
               <LanguageSwitcher />
+            </div>
+
+            {/* Mobile Controls: Version Badge First + 3 Vertical Dots Menu */}
+            <div className="flex sm:hidden items-center gap-1.5 shrink-0">
+              <Badge
+                variant="outline"
+                className="text-[10px] font-mono font-medium px-1.5 py-0.5 rounded-full border-amber-500/30 dark:border-amber-400/30 bg-amber-500/10 text-amber-700 dark:text-amber-300 shrink-0 select-none"
+              >
+                v{pkg.version}
+              </Badge>
+              <DropdownMenu>
+                <DropdownMenuTrigger asChild>
+                  <Button
+                    variant="outline"
+                    size="icon"
+                    className="h-8 w-8 rounded-xl border-border bg-muted/60 backdrop-blur-sm hover:bg-accent text-foreground cursor-pointer"
+                  >
+                    <MoreVertical className="h-4 w-4" />
+                    <span className="sr-only">Menu</span>
+                  </Button>
+                </DropdownMenuTrigger>
+                <DropdownMenuContent
+                  align="end"
+                  className="w-48 p-2 space-y-2 rounded-xl border-border bg-card shadow-xl"
+                >
+                  <div className="flex items-center justify-between px-2 py-1">
+                    <span className="text-xs font-semibold text-muted-foreground uppercase tracking-wider">
+                      Theme
+                    </span>
+                    <ThemeToggle />
+                  </div>
+                  <div className="h-px bg-border my-1" />
+                  <div className="flex items-center justify-between px-2 py-1">
+                    <span className="text-xs font-semibold text-muted-foreground uppercase tracking-wider">
+                      Language
+                    </span>
+                    <LanguageSwitcher />
+                  </div>
+                </DropdownMenuContent>
+              </DropdownMenu>
             </div>
           </div>
           <div className="space-y-3 w-full flex flex-col items-center">
